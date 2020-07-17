@@ -1,2 +1,5 @@
 (grm-require 'grm-visual)
+(grm-require 'grm-mode)
+(grm-require 'grm-evil)
+(grm-require 'grm-leader-mode)
 (provide 'grm-modules-init)
