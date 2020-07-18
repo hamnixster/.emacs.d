@@ -35,4 +35,12 @@
            ruby
            )))
 
+(defun grm-save-buffer-and-directories ()
+  (when buffer-file-name
+    (let ((dir (file-name-directory buffer-file-name)))
+      (when (not (file-exists-p dir))
+        (make-directory dir t))
+      (when (not (file-exists-p (buffer-file-name)))
+        (save-buffer (buffer-file-name))))))
+
 (provide 'grm-misc-emacs-defaults)
