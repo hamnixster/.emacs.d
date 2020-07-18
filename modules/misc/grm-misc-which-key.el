@@ -1,4 +1,4 @@
-(setq which-key-idle-delay 1.0
+(setq which-key-idle-delay 0.1
       which-key-special-keys nil)
 (autoload 'which-key--show-keymap "which-key")
 (defun grm-which-key-show-major-mode-keymap (&optional initial-input)
