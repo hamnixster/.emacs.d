@@ -6,6 +6,7 @@
     projectile
 
     emacs-defaults
+    diminish
     bindings
 
     performance

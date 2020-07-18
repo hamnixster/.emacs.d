@@ -8,6 +8,7 @@
    (quote
     (
      no-littering
+     diminish
      nord-theme
      evil
      evil-nerd-commenter
