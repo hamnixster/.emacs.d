@@ -2,4 +2,5 @@
 (grm-require 'grm-mode)
 (grm-require 'grm-evil)
 (grm-require 'grm-leader-mode)
+(grm-require 'grm-misc)
 (provide 'grm-modules-init)
