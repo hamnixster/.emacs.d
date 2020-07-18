@@ -39,4 +39,6 @@
               (error "%s" s)))
         (buffer-substring-no-properties (point) (line-end-position))))))
 
+(add-hook 'ruby-mode-hook (lambda () (setq flycheck-checker 'ruby-standard)))
+
 (provide 'grm-ruby)

@@ -14,7 +14,7 @@
    use-dialog-box nil
    whitespace-line-column 80
    whitespace-style '(face tabs empty trailing lines-tail)
-   x-gtk-use-system-tooltips nil)
+   x-gtk-use-system-tooltips t)
 
   (blink-cursor-mode -1)
   (column-number-mode t)
