@@ -52,19 +52,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
     (abort-recursive-edit)))
 
-(define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
-(define-key evil-normal-state-map [escape] 'keyboard-quit)
-(define-key evil-visual-state-map [escape] 'keyboard-quit)
-(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-
-(global-set-key [escape]          'evil-exit-emacs-state)
-(define-key grm-mode-map [escape] 'minibuffer-keyboard-quit)
-
-(define-key evil-normal-state-map "gc" 'evilnc-comment-operator)
 (require 'evil-nerd-commenter)
 
 (provide 'grm-evil)

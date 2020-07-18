@@ -10,13 +10,33 @@
 (define-prefix-command 'ctrl-c-f-map)
 (define-key grm-mode-map (kbd "C-c f") 'ctrl-c-f-map)
 
-(define-key grm-mode-map          (kbd "C-x C-1") 'delete-other-windows)
-(define-key grm-mode-map          (kbd "C-x C-2") 'split-window-below)
-(define-key grm-mode-map          (kbd "C-x C-3") 'split-window-right)
-(define-key grm-mode-map          (kbd "C-x C-0") 'delete-window)
+(define-key grm-mode-map (kbd "C-x C-1") 'delete-other-windows)
+(define-key grm-mode-map (kbd "C-x C-2") 'split-window-below)
+(define-key grm-mode-map (kbd "C-x C-3") 'split-window-right)
+(define-key grm-mode-map (kbd "C-x C-0") 'delete-window)
+
+;; evil
+(define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
+(define-key evil-normal-state-map [escape] 'keyboard-quit)
+(define-key evil-visual-state-map [escape] 'keyboard-quit)
+(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+(global-set-key [escape]          'evil-exit-emacs-state)
+(define-key grm-mode-map [escape] 'minibuffer-keyboard-quit)
+(define-key evil-normal-state-map "gc" 'evilnc-comment-operator)
 
 ;; magit
 (define-key ctrl-c-g-map "s" #'magit-status)
+(with-eval-after-load 'magit-mode
+  ;; literally cannot figure out how to get grm-leader to work for anything in magit :(
+  ;; (define-key magit-mode-map (kbd "SPC") 'evil-execute-in-grm-leader-state)
+  ;; (define-key magit-mode-map (kbd "C-c x f") 'find-file)
+  (define-key transient-map        "q" 'transient-quit-one)
+  (define-key transient-edit-map   "q" 'transient-quit-one)
+  (define-key transient-sticky-map "q" 'transient-quit-seq))
 
 ;; which-key
 (define-key grm-mode-map (kbd "C-c ?") 'which-key-show-top-level)
