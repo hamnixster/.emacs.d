@@ -12,6 +12,7 @@
     diminish
     undo-tree
     which-key
+    company-mode
 
     magit
 

@@ -32,6 +32,12 @@
 (define-key grm-mode-map (kbd "C-x C-3") 'split-window-right)
 (define-key grm-mode-map (kbd "C-x C-0") 'delete-window)
 
+;; company
+(grm-key-chord-define company-active-map "jk"        'company-complete)
+(define-key           company-active-map (kbd "C-j") 'company-select-next)
+(define-key           company-active-map (kbd "C-k") 'company-select-previous)
+(define-key           company-active-map [escape] 'keyboard-quit)
+
 ;; evil
 (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
 (define-key evil-normal-state-map [escape] 'keyboard-quit)

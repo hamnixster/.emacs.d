@@ -27,6 +27,8 @@
      key-chord
      smart-mode-line
      whitespace-cleanup-mode
+     company
+     company-quickhelp
      ))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
