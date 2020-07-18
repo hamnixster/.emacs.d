@@ -28,6 +28,20 @@
 (define-key grm-mode-map [escape] 'minibuffer-keyboard-quit)
 (define-key evil-normal-state-map "gc" 'evilnc-comment-operator)
 
+;; helm
+(define-key helm-find-files-map [C-backspace]   'helm-find-files-up-one-level)
+(define-key helm-find-files-map (kbd "C-h")     'helm-find-files-up-one-level)
+(define-key helm-map            (kbd "C-j")     'helm-next-line)
+(define-key helm-map            (kbd "C-k")     'helm-previous-line)
+(with-eval-after-load 'grm-leader-mode
+  (define-key grm-leader-local-mode-map (kbd "SPC") 'helm-mini))
+
+(define-key grm-mode-map        (kbd "M-x")     'helm-M-x)
+(define-key grm-mode-map        (kbd "C-x C-f") 'helm-find-files)
+(define-key grm-mode-map        (kbd "C-x C-r") 'helm-ag)
+(define-key grm-mode-map        (kbd "C-x C-b") 'helm-mini)
+(define-key grm-mode-map        (kbd "C-x C-y") 'helm-show-kill-ring)
+
 ;; magit
 (define-key ctrl-c-g-map "s" #'magit-status)
 (with-eval-after-load 'magit-mode

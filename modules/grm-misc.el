@@ -2,6 +2,8 @@
 
 (defvar grm-enabled-misc-settings-list
   '(
+    helm
+
     emacs-defaults
     bindings
 
