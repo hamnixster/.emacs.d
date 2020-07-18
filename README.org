@@ -61,3 +61,9 @@
 
 **** ~which-key~
      Loads which-key, set some configuration, and a function to show keymap at the top level.
+
+**** ~auto-insert~
+     File templates.
+
+**** ~beacon~
+     Cursor highlight.

@@ -7,6 +7,8 @@
 
     performance
 
+    auto-insert
+    beacon-mode
     magit
     which-key
     ))
