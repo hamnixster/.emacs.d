@@ -15,6 +15,9 @@
 (define-key grm-mode-map          (kbd "C-x C-3") 'split-window-right)
 (define-key grm-mode-map          (kbd "C-x C-0") 'delete-window)
 
+;; magit
+(define-key ctrl-c-g-map "s" #'magit-status)
+
 ;; which-key
 (define-key grm-mode-map (kbd "C-c ?") 'which-key-show-top-level)
 (define-key grm-mode-map (kbd "C-c /") 'grm-which-key-show-major-mode-keymap)

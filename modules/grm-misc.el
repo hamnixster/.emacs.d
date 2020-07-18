@@ -7,6 +7,7 @@
 
     performance
 
+    magit
     which-key
     ))
 
