@@ -1,3 +1,20 @@
+;; leader
+
+(setq grm-leader-special '(?q ?w ?t ?y ?i ?o
+                           ?d ?f ?g ?j
+                           ?z ?v ?b))
+(defcustom grm-leader-mod-alist
+  '((nil . "C-")
+    ("," . "C-M-")
+    ("m" . "M-"))
+  "List of keys and their associated modifer."
+  :group 'grm-leader
+  :type '(alist))
+
+(define-key evil-normal-state-map (kbd "SPC") 'evil-execute-in-grm-leader-state)
+(define-key evil-visual-state-map (kbd "SPC") 'evil-execute-in-grm-leader-state)
+(define-key evil-motion-state-map (kbd "SPC") 'evil-execute-in-grm-leader-state)
+
 (define-prefix-command 'ctrl-c-q-map)
 (define-key grm-mode-map (kbd "C-c q") 'ctrl-c-q-map)
 (define-key ctrl-c-q-map (kbd "R") 'restart-emacs)
