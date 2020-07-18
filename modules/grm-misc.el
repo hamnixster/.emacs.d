@@ -7,6 +7,7 @@
     auto-insert
 
     emacs-defaults
+    smart-mode-line
     performance
     diminish
     undo-tree
@@ -20,6 +21,7 @@
 
     smartparens
 
+    key-chord
     bindings
     ))
 

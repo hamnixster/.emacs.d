@@ -24,6 +24,8 @@
      diff-hl
      indent-guide
      smartparens
+     key-chord
+     smart-mode-line
      ))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
