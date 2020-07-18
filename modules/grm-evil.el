@@ -64,4 +64,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (global-set-key [escape]          'evil-exit-emacs-state)
 (define-key grm-mode-map [escape] 'minibuffer-keyboard-quit)
 
+(define-key evil-normal-state-map "gc" 'evilnc-comment-operator)
+(require 'evil-nerd-commenter)
+
 (provide 'grm-evil)
