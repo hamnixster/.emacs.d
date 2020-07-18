@@ -3,6 +3,7 @@
 (defvar grm-enabled-misc-settings-list
   '(
     helm
+    projectile
 
     emacs-defaults
     bindings

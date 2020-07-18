@@ -37,8 +37,8 @@
   (define-key grm-leader-local-mode-map (kbd "SPC") 'helm-mini))
 
 (define-key grm-mode-map        (kbd "M-x")     'helm-M-x)
-(define-key grm-mode-map        (kbd "C-x C-f") 'helm-find-files)
-(define-key grm-mode-map        (kbd "C-x C-r") 'helm-ag)
+(define-key grm-mode-map        (kbd "C-x C-f") 'helm-projectile)
+(define-key grm-mode-map        (kbd "C-c C-z") 'helm-projectile-ag)
 (define-key grm-mode-map        (kbd "C-x C-b") 'helm-mini)
 (define-key grm-mode-map        (kbd "C-x C-y") 'helm-show-kill-ring)
 

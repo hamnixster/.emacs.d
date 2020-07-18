@@ -18,6 +18,8 @@
      beacon
      helm
      helm-ag
+     helm-projectile
+     projectile
      ))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
