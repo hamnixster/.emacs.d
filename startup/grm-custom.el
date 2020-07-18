@@ -22,6 +22,8 @@
      helm-projectile
      projectile
      diff-hl
+     indent-guide
+     smartparens
      ))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

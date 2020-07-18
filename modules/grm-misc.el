@@ -4,18 +4,23 @@
   '(
     helm
     projectile
+    auto-insert
 
     emacs-defaults
-    diminish
-    bindings
-
     performance
-
-    auto-insert
-    beacon-mode
-    magit
+    diminish
+    undo-tree
     which-key
+
+    magit
+
     diff-hl
+    beacon-mode
+    indent-guide
+
+    smartparens
+
+    bindings
     ))
 
 (mapc 'grm-misc-enable-setting grm-enabled-misc-settings-list)
