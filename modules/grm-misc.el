@@ -20,6 +20,7 @@
     indent-guide
 
     smartparens
+    subword-mode
 
     key-chord
     bindings
