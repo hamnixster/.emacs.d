@@ -21,6 +21,7 @@
 
     smartparens
     subword-mode
+    whitespace-cleanup
 
     key-chord
     bindings

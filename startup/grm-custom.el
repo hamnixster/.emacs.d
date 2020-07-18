@@ -26,6 +26,7 @@
      smartparens
      key-chord
      smart-mode-line
+     whitespace-cleanup-mode
      ))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
