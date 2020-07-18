@@ -12,6 +12,8 @@
 
 (advice-add 'inf-ruby-console-auto :before #'chruby-use-corresponding)
 
+(require 'rspec-mode)
+
 (setq inf-ruby-console-environment "development")
 
 (require 'inf-ruby)

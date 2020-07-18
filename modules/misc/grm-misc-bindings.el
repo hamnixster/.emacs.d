@@ -87,4 +87,8 @@
 (define-key grm-mode-map (kbd "C-c ?") 'which-key-show-top-level)
 (define-key grm-mode-map (kbd "C-c /") 'grm-which-key-show-major-mode-keymap)
 
+;; rails
+(with-eval-after-load 'projectile-rails-mode
+  (define-key projectile-rails-mode-map (kbd "C-c r") 'projectile-rails-command-map))
+
 (provide 'grm-misc-bindings)
