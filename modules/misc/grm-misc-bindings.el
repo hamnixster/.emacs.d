@@ -28,6 +28,7 @@
 
 ;; emacs
 (global-set-key (kbd "C-x C-z") nil)
+(global-set-key (kbd "C-x f") 'find-file)
 
 ;; window
 (define-key grm-mode-map (kbd "C-x C-1") 'delete-other-windows)
