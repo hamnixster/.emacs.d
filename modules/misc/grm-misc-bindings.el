@@ -1,5 +1,4 @@
 ;; leader
-
 (setq grm-leader-special '(?q ?w ?t ?y ?i ?o
                            ?d ?f ?g ?j
                            ?z ?v ?b))
@@ -27,6 +26,10 @@
 (define-prefix-command 'ctrl-c-f-map)
 (define-key grm-mode-map (kbd "C-c f") 'ctrl-c-f-map)
 
+;; emacs
+(global-set-key (kbd "C-x C-z") nil)
+
+;; window
 (define-key grm-mode-map (kbd "C-x C-1") 'delete-other-windows)
 (define-key grm-mode-map (kbd "C-x C-2") 'split-window-below)
 (define-key grm-mode-map (kbd "C-x C-3") 'split-window-right)
