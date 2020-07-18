@@ -21,6 +21,7 @@
      helm-ag
      helm-projectile
      projectile
+     diff-hl
      ))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

@@ -15,6 +15,7 @@
     beacon-mode
     magit
     which-key
+    diff-hl
     ))
 
 (mapc 'grm-misc-enable-setting grm-enabled-misc-settings-list)
