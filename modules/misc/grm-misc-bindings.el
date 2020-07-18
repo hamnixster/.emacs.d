@@ -37,6 +37,7 @@
 (define-key grm-mode-map (kbd "C-x C-0") 'delete-window)
 
 ;; company
+(define-key grm-mode-map (kbd "C-c C-y") 'company-yasnippet)
 (grm-key-chord-define company-active-map "jk"        'company-complete)
 (define-key           company-active-map (kbd "C-j") 'company-select-next)
 (define-key           company-active-map (kbd "C-k") 'company-select-previous)

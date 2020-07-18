@@ -33,6 +33,7 @@
      inf-ruby
      ruby-end
      robe
+     yasnippet
      ))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

@@ -26,6 +26,7 @@
 
     key-chord
     bindings
+    yas
     ))
 
 (mapc 'grm-misc-enable-setting grm-enabled-misc-settings-list)
