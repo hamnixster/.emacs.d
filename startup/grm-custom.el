@@ -37,6 +37,9 @@
      rspec-mode
      projectile-rails
      flycheck
+     web-mode
+     mmm-mode
+     erblint
      ))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
