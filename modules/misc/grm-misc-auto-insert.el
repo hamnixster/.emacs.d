@@ -18,12 +18,16 @@
     "# Description: " str \n))
 
 (with-eval-after-load 'autoinsert
-  (define-auto-insert '("\\.py\\'" . "Python skeleton")
-    (grm-misc-auto-insert-script-template 'python))
-  (define-auto-insert '("\\.sh\\'" . "Shell scripts skeleton")
-    (grm-misc-auto-insert-script-template 'bash))
-  (define-auto-insert '("\\.org\\'" . "Org-mode skeleton")
-    '("Short description: "
-      "* " (file-name-base (buffer-file-name)))))
+  (progn
+    (setq auto-insert-query nil)
+    (setq auto-insert-alist nil)
+    (add-hook 'find-file-hook 'auto-insert)
+    (define-auto-insert '("\\.py\\'" . "Python skeleton")
+      (grm-misc-auto-insert-script-template 'python))
+    (define-auto-insert '("\\.sh\\'" . "Shell scripts skeleton")
+      (grm-misc-auto-insert-script-template 'bash))
+    (define-auto-insert '("\\.org\\'" . "Org-mode skeleton")
+      '("Short description: "
+        "* " (file-name-base (buffer-file-name))))))
 
 (provide 'grm-misc-auto-insert)
