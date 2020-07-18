@@ -71,6 +71,9 @@
   ;; literally cannot figure out how to get grm-leader to work for anything in magit :(
   ;; (define-key magit-mode-map (kbd "SPC") 'evil-execute-in-grm-leader-state)
   ;; (define-key magit-mode-map (kbd "C-c x f") 'find-file)
+  (define-key transient-map        [escape] 'transient-quit-one)
+  (define-key transient-edit-map   [escape] 'transient-quit-one)
+  (define-key transient-sticky-map [escape] 'transient-quit-seq)
   (define-key transient-map        "q" 'transient-quit-one)
   (define-key transient-edit-map   "q" 'transient-quit-one)
   (define-key transient-sticky-map "q" 'transient-quit-seq))
