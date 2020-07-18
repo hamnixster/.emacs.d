@@ -1,0 +1,63 @@
+* My emacs configuration
+  The basic layout of this emacs configuration and the basis for grm-mode and grm-leader mode are all taken from a user
+  named Junpeng Qiu. [[https://github.com/cute-jumper/.emacs.d][Find their config here]].
+
+** Requiring code
+   The principle for requiring code is very simple and relies on ~require~ directly.
+   There is a macro called ~grm-require~ which wraps ~require~ and saves timings for custom module names to be inspected
+   after initialization.
+
+   Initialization will attempt to install any packages present in the custom config file, ~startup/grm-custom.el~.
+
+   After that, modules from ~modules/grm-modules-init.el~ are required.
+   
+   Finally, initialize finishes with ~startup/grm-startup-finalize.el~
+
+** ~modules~
+   The modules directory contains configuration for emacs, and all the installed packages.
+   
+*** ~grm-visual~
+    The first thing to be loaded is ~grm-visual~ which controls the basic aspects of what emacs will look like.
+    Check here for the relevant fonts to have installed, as well as the theme that should be installed by adding it to
+    ~grm-custom.el~.
+
+*** ~grm-leader-mode~
+    This mode does some crazy stuff that I don't totally understand.
+    There is a defcustom configured for a leader key called ~grm-leader-literal-key~.
+    
+    There is special handling of ~C-c~, ~C-x~, ~C-h~ in that it will be that when you press the next key
+    as a single key, it will also send it with ~C-~ . So to use ~C-c C-c~ from the leader, you enter ~SPC c c~ and to
+    use ~C-c c~, ~SPC c SPC c~. 
+    
+*** ~grm-mode~
+    This is a minor-mode that attempts to have priority keybindings and is enabled globally.
+    That's really all it does, it's keymap is ~grm-mode-map~.
+
+    ~prefix-command~ maps will be nested and commands in the main map and nested maps.
+    #+BEGIN_SRC elisp
+    (define-prefix-command 'ctrl-c-q-map)
+    (define-key grm-mode-map (kbd "C-c q") 'ctrl-c-q-map)
+    (define-key ctrl-c-q-map (kbd "R") 'restart-emacs)
+    (define-key grm-mode-map (kbd "C-x C-1") 'delete-other-windows)
+    #+END_SRC
+
+*** ~misc~
+    The ~misc~ section has a special loader that loads files from the ~misc/~ directory.
+
+    Modules that are listed in ~grm-enabled-misc-settings-list~ will be loaded.
+
+**** ~bindings~
+     Here are bindings set in grm-mode-map.
+     They work both by ~C-c g~, etc. and by the grm-leader with ~SPC g~.
+     
+**** ~emacs-defaults~
+     Here is some configuration for things like history, backup files, winner-mode, default fill-column.
+     
+**** ~magit~
+     Loads magit.
+
+**** ~performance~
+     Minibuffer optimization from DOOM. Other performance related helpers and setup welcome here.
+
+**** ~which-key~
+     Loads which-key, set some configuration, and a function to show keymap at the top level.
