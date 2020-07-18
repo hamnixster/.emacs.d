@@ -3,4 +3,5 @@
 (grm-require 'grm-evil)
 (grm-require 'grm-leader-mode)
 (grm-require 'grm-misc)
+(grm-require 'grm-programming)
 (provide 'grm-modules-init)

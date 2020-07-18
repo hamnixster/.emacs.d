@@ -28,4 +28,11 @@
 (winner-mode +1)
 (require 'tramp)
 
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ (mapcar (lambda (lang) (cons lang t))
+         `(python
+           ruby
+           )))
+
 (provide 'grm-misc-emacs-defaults)

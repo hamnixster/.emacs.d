@@ -29,6 +29,10 @@
      whitespace-cleanup-mode
      company
      company-quickhelp
+     chruby
+     inf-ruby
+     ruby-end
+     robe
      ))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
