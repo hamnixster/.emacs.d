@@ -44,6 +44,7 @@
      hydra
      dimmer
      highlight-symbol
+     helm-swoop
      ))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
