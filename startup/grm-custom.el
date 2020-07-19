@@ -41,6 +41,7 @@
      mmm-mode
      erblint
      yaml-mode
+     dimmer
      ))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

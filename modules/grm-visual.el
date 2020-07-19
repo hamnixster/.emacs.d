@@ -1,3 +1,5 @@
+(require 'dimmer)
+
 (let ((font-string "Fira Code:pixelsize=16"))
   (setq-default cursor-type 'bar
                 indicate-empty-lines t)
@@ -26,6 +28,13 @@
   (size-indication-mode t)
   (tool-bar-mode -1)
   (set-frame-font font-string)
-  (load-theme 'nord))
+  (load-theme 'nord)
+  (dimmer-configure-which-key)
+  (dimmer-configure-helm)
+  (dimmer-configure-magit)
+  (dimmer-configure-hydra)
+  (dimmer-configure-gnus)
+  (dimmer-mode t)
+  )
 
 (provide 'grm-visual)
