@@ -36,5 +36,6 @@
         (buffer-substring-no-properties (point) (line-end-position))))))
 
 (add-hook 'ruby-mode-hook (lambda () (setq flycheck-checker 'ruby-standard)))
+(add-hook 'ruby-mode-hook #'aggressive-indent-mode)
 
 (provide 'grm-ruby)

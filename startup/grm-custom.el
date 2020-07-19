@@ -45,6 +45,7 @@
      dimmer
      highlight-symbol
      helm-swoop
+     aggressive-indent
      ))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
