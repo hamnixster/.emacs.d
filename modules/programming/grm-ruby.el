@@ -7,13 +7,9 @@
 
 (add-hook 'ruby-mode-hook 'robe-mode)
 
-(eval-after-load 'company
-  '(push 'company-robe company-backends))
-
 (advice-add 'inf-ruby-console-auto :before #'chruby-use-corresponding)
 
 (require 'rspec-mode)
-
 (setq inf-ruby-console-environment "development")
 
 (require 'inf-ruby)
