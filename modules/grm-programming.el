@@ -11,4 +11,6 @@
 (add-hook 'emacs-lisp-mode-hook 'highlight-symbol-mode)
 (add-hook 'ruby-mode-hook 'highlight-symbol-mode)
 
+(add-hook 'markdown-mode-hook #'markdownfmt-enable-on-save)
+
 (provide 'grm-programming)

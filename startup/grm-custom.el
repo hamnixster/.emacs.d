@@ -46,6 +46,12 @@
      highlight-symbol
      helm-swoop
      aggressive-indent
+     markdown-mode
+     markdownfmt
+     gnugo
+     powerthesaurus
+     git-link
+     git-timemachine
      ))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
