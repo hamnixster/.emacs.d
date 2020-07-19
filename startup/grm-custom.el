@@ -40,6 +40,7 @@
      web-mode
      mmm-mode
      erblint
+     yaml-mode
      ))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
