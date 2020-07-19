@@ -43,6 +43,7 @@
      yaml-mode
      hydra
      dimmer
+     highlight-symbol
      ))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
