@@ -41,6 +41,7 @@
      mmm-mode
      erblint
      yaml-mode
+     hydra
      dimmer
      ))))
 (custom-set-faces
