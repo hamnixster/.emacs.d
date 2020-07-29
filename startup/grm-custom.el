@@ -16,6 +16,18 @@
      helm
      helm-projectile
      projectile
+     smart-mode-line
+     magit
+     evil-magit
+     company
+     company-quickhelp
+     diminish
+     dimmer
+     diff-hl
+     beacon
+     indent-guide
+     key-chord
+     yasnippet
      ))))
 
 (provide 'grm-custom)
