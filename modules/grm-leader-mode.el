@@ -24,9 +24,6 @@ All predicates must return nil for grm-leader-local-mode to start."
 (defvar grm-leader-global-mode nil
   "Activate GLeader mode on all buffers?")
 
-(defvar grm-leader-literal-sequence nil
-  "Activated after space is pressed in a command sequence.")
-
 (defvar grm-leader-special nil)
 
 (defvar grm-leader-which-key nil)
@@ -96,9 +93,6 @@ appropriate). Append to keysequence."
     (message key-string-so-far)
     (setq next-modifier
           (cond
-           (grm-leader-literal-sequence
-            (setq key-consumed nil)
-            "")
            ((and
              (stringp key)
              (not (eq nil (assoc key grm-leader-mod-alist)))
@@ -170,9 +164,7 @@ KEY-STRING is the command to lookup."
         (which-key--hide-popup-ignore-command)))
     (grm-leader-mode-lookup-command
      (cond ((and key (member key grm-leader-special) (null key-string-so-far))
-            (progn
-              (setq grm-leader-literal-sequence t)
-              (format "C-c %c" key)))
+            (format "C-c %c" key))
            ((and key (eq key (string-to-char grm-leader-literal-key)) (null key-string-so-far))
             "")
            (:else
@@ -199,7 +191,6 @@ KEY-STRING is the command to lookup."
     ;; `real-this-command' is used by emacs to populate
     ;; `last-repeatable-command', which is used by `repeat'.
     (setq real-this-command binding)
-    (setq grm-leader-literal-sequence nil)
     (if (commandp binding t)
         (call-interactively binding)
       (execute-kbd-macro binding))))

@@ -4,7 +4,7 @@
 
 (setq user-init-file (or load-file-name (buffer-file-name)))
 (setq user-emacs-directory (file-name-directory user-init-file))
-(defvar grm-base-dir    user-emacs-directory)
+(defvar grm-base-dir      user-emacs-directory)
 (defvar grm-startup-dir   (expand-file-name "startup"   grm-base-dir))
 (defvar grm-modules-dir   (expand-file-name "modules"   grm-base-dir))
 (defvar grm-features-dir  (expand-file-name "features"  grm-modules-dir))
@@ -41,17 +41,18 @@
  grm-enabled-features-list
  '(
    no-littering
+   grm-mode
+   grm-leader
+   key-chord
    visual
    emacs
+   restart-emacs
    undo-tree
    smart-mode-line
    dimmer
    indent-guide
    beacon
    whitespace
-   grm-mode
-   grm-leader
-   key-chord
    which-key
    evil
    helm

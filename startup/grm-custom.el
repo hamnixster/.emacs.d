@@ -28,6 +28,7 @@
      indent-guide
      key-chord
      yasnippet
+     restart-emacs
      ))))
 
 (provide 'grm-custom)

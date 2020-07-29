@@ -54,4 +54,11 @@
  (setq yas-snippet-dirs '(grm-snippets-dir))
  (yas-global-mode 1))
 
+(grm-feature-config-inline
+ restart-emacs
+ (defun grm-restart-emacs ()
+   (interactive)
+   (restart-emacs (list "-q" "--load" user-init-file)))
+ (grm-leader-define-key ?q "C-r" 'grm-restart-emacs))
+
 (provide 'grm-inline-features)
