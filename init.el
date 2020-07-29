@@ -1,10 +1,16 @@
+(setq gc-cons-threshold most-positive-fixnum ; 2^61 bytes
+      gc-cons-percentage 0.6
+      file-name-handler-alist nil)
+
 (setq user-init-file (or load-file-name (buffer-file-name)))
 (setq user-emacs-directory (file-name-directory user-init-file))
 (defvar grm-base-dir    user-emacs-directory)
-(defvar grm-startup-dir (expand-file-name "startup" grm-base-dir))
-(defvar grm-modules-dir (expand-file-name "modules" grm-base-dir))
+(defvar grm-startup-dir  (expand-file-name "startup"  grm-base-dir))
+(defvar grm-modules-dir  (expand-file-name "modules"  grm-base-dir))
+(defvar grm-features-dir (expand-file-name "features" grm-modules-dir))
 (add-to-list 'load-path grm-startup-dir)
 (add-to-list 'load-path grm-modules-dir)
+(add-to-list 'load-path grm-features-dir)
 
 (setq custom-file (expand-file-name "grm-custom.el" grm-startup-dir))
 
@@ -15,52 +21,39 @@
                          ("marmalade" . "http://marmalade-repo.org/packages/")))
 (package-initialize)
 (require 'grm-custom)
+(require 'grm-defuns)
+(require 'grm-inline-features)
 
-(defun grm-install-all-packages ()
-  "Use this command to install all the packages.
-It reads from package-selected-packages and
-installs these packages one by one."
-  (interactive)
-  (package-refresh-contents)
-  (dolist (pkg package-selected-packages)
-    (package-installed-p pkg)
-    (ignore-errors
-      (package-install pkg))))
+(setq
+ grm-font-string                 "Fira Code:pixelsize=18"
+ grm-theme                       'nord
+ grm-whitespace-background-color "#3b4252"
+ grm-start-in-emacs-modes        '(dired-mode calendar-mode image-mode)
+ grm-startup-quotes
+ '(
+   "The computer revolution is a revolution in the way we think and in the way we express what we think."
+   "Nothing brings fear to my heart more than a floating point number."
+   "We can only see a short distance ahead, but we can see plenty there that needs to be done."
+   )
+ grm-enabled-features-list
+ '(
+   no-littering
+   visual
+   emacs
+   whitespace
+   grm-mode
+   grm-leader
+   which-key
+   evil
+   evil-nerd-commenter
+   helm
+   org
+   projectile
+   )
+ )
 
-(progn
-  "Checks if packages need to be installed and does so if necessary."
-  (when (catch 'break
-          (dolist (pkg package-selected-packages)
-            (unless (package-installed-p pkg)
-              (throw 'break t))))
-    (grm-install-all-packages)))
+(grm-ensure-all-packages)
+(grm-enable-features)
 
-(require 'no-littering)
-
-(require 'grm-mode)
-(require 'grm-leader-mode)
-(grm-leader-mode)
-(setq grm-leader-literal-key " "
-      grm-leader-special '(?i)
-      grm-leader-mod-alist
-      '((nil . "C-")
-        (" " . "")
-        ("m" . "M-")
-        ("," . "C-M-")
-        ))
-
-(setq evil-want-keybinding nil
-      evil-want-integration t)
-
-(require 'evil)
-;; eager loading commands helps grm-leader work the first time.... maybe?
-(require 'evil-commands)
-(evil-mode +1)
-
-(define-key evil-normal-state-map (kbd "SPC") 'grm-leader-mode-exec)
-(define-key evil-visual-state-map (kbd "SPC") 'grm-leader-mode-exec)
-(define-key evil-motion-state-map (kbd "SPC") 'grm-leader-mode-exec)
-
-(require 'which-key)
-(which-key-mode +1)
-(setq grm-leader-which-key t)
+(setq gc-cons-threshold 16777216 ; 16mb
+      gc-cons-percentage 0.1)

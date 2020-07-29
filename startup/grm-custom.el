@@ -11,6 +11,11 @@
      s
      which-key
      evil
+     evil-nerd-commenter
+     nord-theme
+     helm
+     helm-projectile
+     projectile
      ))))
 
 (provide 'grm-custom)

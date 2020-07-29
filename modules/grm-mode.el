@@ -29,8 +29,6 @@ Called via the `after-load-functions' special hook."
   (interactive)
   (grm-mode -1))
 
-(global-grm-mode +1)
-
 ;; Fix the problem when minibuffer first pop up
 (defun grm-mode-minibuffer-setup-hook ()
   (remove-hook 'minibuffer-setup-hook #'grm-mode-minibuffer-setup-hook)
