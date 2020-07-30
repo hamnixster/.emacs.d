@@ -67,6 +67,7 @@
    smartparens
    subword
    whitespace-cleanup
+   aggressive-indent
    )
  )
 

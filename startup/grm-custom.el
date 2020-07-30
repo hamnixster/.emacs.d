@@ -31,6 +31,7 @@
      restart-emacs
      smartparens
      whitespace-cleanup-mode
+     aggressive-indent
      ))))
 
 (provide 'grm-custom)
