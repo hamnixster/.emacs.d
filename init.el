@@ -62,17 +62,26 @@
    projectile
    auto-insert
    yas
+   flyspell
    diff-hl
    diminish
    smartparens
    subword
    whitespace-cleanup
    aggressive-indent
+   highlight-symbol
+   markdown
+   flycheck
+   ruby
    )
  )
 
 (grm-ensure-all-packages)
 (grm-enable-features)
+
+(toggle-frame-fullscreen)
+(toggle-frame-fullscreen)
+(message "Welcome to emacs, %s." user-full-name)
 
 (setq gc-cons-threshold 16777216 ; 16mb
       gc-cons-percentage 0.1)

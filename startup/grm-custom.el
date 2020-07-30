@@ -32,6 +32,20 @@
      smartparens
      whitespace-cleanup-mode
      aggressive-indent
+     markdown-mode
+     highlight-symbol
+     markdownfmt
+     flycheck
+     chruby
+     inf-ruby
+     ruby-end
+     robe
+     rspec-mode
+     projectile-rails
+     erblint
+     yaml-mode
+     web-mode
+     mmm-mode
      ))))
 
 (provide 'grm-custom)

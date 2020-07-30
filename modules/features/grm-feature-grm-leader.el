@@ -17,14 +17,14 @@
 
 (grm-leader-mode)
 
-(when (member 'which-key grm-enabled-features-list)
-  (setq grm-leader-which-key t))
-
 (grm-leader-setup-special-maps)
 
 (when (member 'grm-mode grm-enabled-features-list)
   (grm-leader-bind-special-maps grm-mode-map))
 
 (global-set-key (kbd "C-c o") 'move-end-of-line)
+
+(when (member 'which-key grm-enabled-features-list)
+  (setq grm-leader-which-key t))
 
 (provide 'grm-feature-grm-leader)

@@ -87,7 +87,8 @@ All predicates must return nil for grm-leader-local-mode to start."
                (format "C-u %s " grm-universal-arg))
            "")
          (cdr (assoc nil grm-leader-mod-alist))))
-  (message grm-last-key-string))
+  (let (message-log-max)
+    (message grm-last-key-string)))
 
 (add-hook 'grm-leader-mode-enabled-hook 'grm-leader-accept-input)
 
@@ -138,7 +139,8 @@ appropriate). Append to keysequence."
                         "%s%s"
                         (if key-string-so-far (format "%s " key-string-so-far) "")
                         next-modifier)))
-                (message grm-last-key-string)
+                (let (message-log-max)
+                  (message grm-last-key-string))
                 (when grm-leader-which-key
                   (setq grm-leader-which-key-map
                         (if key-string-so-far
@@ -178,7 +180,8 @@ KEY-STRING is the command to lookup."
                         (format "C-u %s " grm-universal-arg))
                     "")
                   key-string))
-           (message grm-last-key-string)
+           (let (message-log-max)
+             (message grm-last-key-string))
            binding)
           ((keymapp binding)
            (grm-leader-mode-lookup-key-sequence nil key-string))
@@ -212,7 +215,8 @@ KEY-STRING is the command to lookup."
             "%s%s"
             (if key-string-so-far (format "%s " key-string-so-far) "")
             (cdr (assoc nil grm-leader-mod-alist)))))
-    (message grm-last-key-string))
+    (let (message-log-max)
+      (message grm-last-key-string)))
 
   (let ((sanitized-key
          (if key-string-so-far (grm-leader-mode-sanitized-key-string (or key (read-key key-string-so-far)))

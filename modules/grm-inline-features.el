@@ -57,4 +57,16 @@
   (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
   (add-hook 'ruby-mode-hook #'aggressive-indent-mode))
 
+(grm-feature-config-inline markdown
+  (when (member 'grm-leader package-selected-packages)
+    (add-hook 'markdown-mode-hook #'markdownfmt-enable-on-save)))
+
+(grm-feature-config-inline highlight-symbol
+  (setq highlight-symbol-idle-delay 0.1)
+  (add-hook 'emacs-lisp-mode-hook 'highlight-symbol-mode)
+  (add-hook 'ruby-mode-hook 'highlight-symbol-mode))
+
+(grm-feature-config-inline flycheck
+  (global-flycheck-mode))
+
 (provide 'grm-inline-features)
