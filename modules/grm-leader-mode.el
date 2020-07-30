@@ -76,7 +76,15 @@ All predicates must return nil for grm-leader-local-mode to start."
   (when grm-leader-which-key
     (setq grm-leader-which-key-thread
           (make-thread 'grm-leader-which-key-top)))
-  (setq grm-last-key-string (cdr (assoc nil grm-leader-mod-alist)))
+  (setq grm-last-key-string
+        (format
+         "%s%s"
+         (if grm-universal-arg
+             (if (consp grm-universal-arg)
+                 (apply 'concat (make-list (floor (/ (log (car grm-universal-arg)) (log 4))) "C-u "))
+               (format "C-u %s " grm-universal-arg))
+           "")
+         (cdr (assoc nil grm-leader-mod-alist))))
   (message grm-last-key-string))
 
 (add-hook 'grm-leader-mode-enabled-hook 'grm-leader-accept-input)
@@ -117,8 +125,15 @@ appropriate). Append to keysequence."
                 (setq grm-last-key-string
                       (format
                        "%s%s"
-                       (if key-string-so-far (format "%s " key-string-so-far) "")
-                       next-modifier))
+                       (if grm-universal-arg
+                           (if (consp grm-universal-arg)
+                               (apply 'concat (make-list (floor (/ (log (car grm-universal-arg)) (log 4))) "C-u "))
+                             (format "C-u %s " grm-universal-arg))
+                         "")
+                       (format
+                        "%s%s"
+                        (if key-string-so-far (format "%s " key-string-so-far) "")
+                        next-modifier)))
                 (message grm-last-key-string)
                 (when grm-leader-which-key
                   (setq grm-leader-which-key-map
@@ -148,7 +163,15 @@ KEY-STRING is the command to lookup."
     (cond ((commandp binding)
            (setq last-command-event (aref key-vector (- (length key-vector) 1)))
            (grm-leader-mode-deactivate)
-           (setq grm-last-key-string key-string)
+           (setq grm-last-key-string
+                 (format
+                  "%s%s"
+                  (if grm-universal-arg
+                      (if (consp grm-universal-arg)
+                          (apply 'concat (make-list (floor (/ (log (car grm-universal-arg)) (log 4))) "C-u "))
+                        (format "C-u %s " grm-universal-arg))
+                    "")
+                  key-string))
            (message grm-last-key-string)
            binding)
           ((keymapp binding)
@@ -172,8 +195,15 @@ KEY-STRING is the command to lookup."
     (setq grm-last-key-string
           (format
            "%s%s"
-           (if key-string-so-far (format "%s " key-string-so-far) "")
-           (cdr (assoc nil grm-leader-mod-alist))))
+           (if grm-universal-arg
+               (if (consp grm-universal-arg)
+                   (apply 'concat (make-list (floor (/ (log (car grm-universal-arg)) (log 4))) "C-u "))
+                 (format "C-u %s " grm-universal-arg))
+             "")
+           (format
+            "%s%s"
+            (if key-string-so-far (format "%s " key-string-so-far) "")
+            (cdr (assoc nil grm-leader-mod-alist)))))
     (message grm-last-key-string))
 
   (let ((sanitized-key
@@ -298,7 +328,8 @@ KEY-STRING is the command to lookup."
          )
        )
       ))
-  (message grm-last-key-string))
+  (let (message-log-max)
+    (message grm-last-key-string)))
 
 (defun grm-leader-which-key-top ()
   (setq grm-leader-which-key-received nil)
@@ -348,7 +379,8 @@ KEY-STRING is the command to lookup."
                     (cdr (assq sp grm-special-bindings))
                     unformatted))))
          unformatted))))
-  (message grm-last-key-string))
+  (let (message-log-max)
+    (message grm-last-key-string)))
 
 (with-eval-after-load 'which-key
   (defun grm-which-key--create-buffer-and-show
@@ -360,7 +392,16 @@ Finally, show the buffer."
                            prefix-keys from-keymap filter preformat))
           (prefix-desc (key-description prefix-keys)))
       (cond ((= (length formatted-keys) 0)
-             (setq grm-last-key-string (format "%s which-key: There are no keys to show" grm-last-key-string)))
+             (setq grm-last-key-string
+                   (format
+                    "%s%s"
+                    (if grm-universal-arg
+                        (if (consp grm-universal-arg)
+                            (apply 'concat (make-list (floor (/ (log (car grm-universal-arg)) (log 4))) "C-u "))
+                          (format "C-u %s " grm-universal-arg))
+                      "")
+                    (format "%s which-key: There are no keys to show" grm-last-key-string)))
+             )
             ((listp which-key-side-window-location)
              (setq which-key--last-try-2-loc
                    (apply #'which-key--try-2-side-windows
