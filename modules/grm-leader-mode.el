@@ -33,6 +33,7 @@ All predicates must return nil for grm-leader-local-mode to start."
 (defvar grm-leader-which-key-mod nil)
 (defvar grm-current-bindings nil)
 (defvar grm-special-bindings nil)
+(defvar grm-last-key-string "")
 
 (defvar grm-leader-local-mode-map
   (let ((map (make-sparse-keymap)))
@@ -74,7 +75,8 @@ All predicates must return nil for grm-leader-local-mode to start."
   (when grm-leader-which-key
     (setq grm-leader-which-key-thread
           (make-thread 'grm-leader-which-key-top)))
-  (message (cdr (assoc nil grm-leader-mod-alist))))
+  (setq grm-last-key-string (cdr (assoc nil grm-leader-mod-alist)))
+  (message grm-last-key-string))
 
 (add-hook 'grm-leader-mode-enabled-hook 'grm-leader-accept-input)
 
@@ -111,11 +113,12 @@ appropriate). Append to keysequence."
     (setq next-key
           (if key-consumed
               (progn
-                (message
-                 (format
-                  "%s%s"
-                  (if key-string-so-far (format "%s " key-string-so-far) "")
-                  next-modifier))
+                (setq grm-last-key-string
+                      (format
+                       "%s%s"
+                       (if key-string-so-far (format "%s " key-string-so-far) "")
+                       next-modifier))
+                (message grm-last-key-string)
                 (when grm-leader-which-key
                   (setq grm-leader-which-key-map
                         (if key-string-so-far
@@ -144,7 +147,8 @@ KEY-STRING is the command to lookup."
     (cond ((commandp binding)
            (setq last-command-event (aref key-vector (- (length key-vector) 1)))
            (grm-leader-mode-deactivate)
-           (message key-string)
+           (setq grm-last-key-string key-string)
+           (message grm-last-key-string)
            binding)
           ((keymapp binding)
            (grm-leader-mode-lookup-key-sequence nil key-string))
@@ -164,11 +168,12 @@ KEY-STRING is the command to lookup."
     )
 
   (when (eq nil key)
-    (message
-     (format
-      "%s%s"
-      (if key-string-so-far (format "%s " key-string-so-far) "")
-      (cdr (assoc nil grm-leader-mod-alist)))))
+    (setq grm-last-key-string
+          (format
+           "%s%s"
+           (if key-string-so-far (format "%s " key-string-so-far) "")
+           (cdr (assoc nil grm-leader-mod-alist))))
+    (message grm-last-key-string))
 
   (let ((sanitized-key
          (if key-string-so-far (grm-leader-mode-sanitized-key-string (or key (read-key key-string-so-far)))
@@ -284,7 +289,8 @@ KEY-STRING is the command to lookup."
          unformatted
          )
        )
-      )))
+      ))
+  (message grm-last-key-string))
 
 (defun grm-leader-which-key-top ()
   (setq grm-leader-which-key-received nil)
@@ -333,7 +339,8 @@ KEY-STRING is the command to lookup."
                     (grm-leader-mode-sanitized-key-string sp)
                     (cdr (assq sp grm-special-bindings))
                     unformatted))))
-         unformatted)))))
+         unformatted))))
+  (message grm-last-key-string))
 
 (with-eval-after-load 'which-key
   (defun grm-which-key--create-buffer-and-show
@@ -345,7 +352,7 @@ Finally, show the buffer."
                            prefix-keys from-keymap filter preformat))
           (prefix-desc (key-description prefix-keys)))
       (cond ((= (length formatted-keys) 0)
-             (message "%s-  which-key: There are no keys to show" prefix-desc))
+             (setq grm-last-key-string (format "%s which-key: There are no keys to show" grm-last-key-string)))
             ((listp which-key-side-window-location)
              (setq which-key--last-try-2-loc
                    (apply #'which-key--try-2-side-windows
