@@ -81,7 +81,9 @@ All predicates must return nil for grm-leader-local-mode to start."
          "%s%s"
          (if grm-universal-arg
              (if (consp grm-universal-arg)
-                 (apply 'concat (make-list (floor (/ (log (car grm-universal-arg)) (log 4))) "C-u "))
+                 (apply 'concat
+                        (make-list (floor (log (car grm-universal-arg) 4))
+                                   "C-u "))
                (format "C-u %s " grm-universal-arg))
            "")
          (cdr (assoc nil grm-leader-mod-alist))))
@@ -127,7 +129,9 @@ appropriate). Append to keysequence."
                        "%s%s"
                        (if grm-universal-arg
                            (if (consp grm-universal-arg)
-                               (apply 'concat (make-list (floor (/ (log (car grm-universal-arg)) (log 4))) "C-u "))
+                               (apply 'concat
+                                      (make-list (floor (log (car grm-universal-arg) 4))
+                                                 "C-u "))
                              (format "C-u %s " grm-universal-arg))
                          "")
                        (format
@@ -168,7 +172,9 @@ KEY-STRING is the command to lookup."
                   "%s%s"
                   (if grm-universal-arg
                       (if (consp grm-universal-arg)
-                          (apply 'concat (make-list (floor (/ (log (car grm-universal-arg)) (log 4))) "C-u "))
+                          (apply 'concat
+                                 (make-list (floor (log (car grm-universal-arg) 4))
+                                            "C-u "))
                         (format "C-u %s " grm-universal-arg))
                     "")
                   key-string))
@@ -197,7 +203,9 @@ KEY-STRING is the command to lookup."
            "%s%s"
            (if grm-universal-arg
                (if (consp grm-universal-arg)
-                   (apply 'concat (make-list (floor (/ (log (car grm-universal-arg)) (log 4))) "C-u "))
+                   (apply 'concat
+                          (make-list (floor (log (car grm-universal-arg) 4))
+                                     "C-u "))
                  (format "C-u %s " grm-universal-arg))
              "")
            (format
@@ -423,7 +431,9 @@ Finally, show the buffer."
                     "%s%s"
                     (if grm-universal-arg
                         (if (consp grm-universal-arg)
-                            (apply 'concat (make-list (floor (/ (log (car grm-universal-arg)) (log 4))) "C-u "))
+                            (apply 'concat
+                                   (make-list (floor (log (car grm-universal-arg) 4))
+                                              "C-u "))
                           (format "C-u %s " grm-universal-arg))
                       "")
                     (format "%s which-key: There are no keys to show" grm-last-key-string)))
