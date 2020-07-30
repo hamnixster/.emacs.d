@@ -32,6 +32,7 @@ All predicates must return nil for grm-leader-local-mode to start."
 (defvar grm-leader-which-key-map nil)
 (defvar grm-leader-which-key-mod nil)
 (defvar grm-current-bindings nil)
+(defvar grm-special-bindings nil)
 
 (defvar grm-leader-local-mode-map
   (let ((map (make-sparse-keymap)))
@@ -63,7 +64,12 @@ All predicates must return nil for grm-leader-local-mode to start."
 
 (defun grm-leader-accept-input ()
   (when grm-leader-which-key
-    (setq grm-current-bindings (which-key--get-current-bindings)))
+    (setq grm-current-bindings (which-key--get-current-bindings)
+          grm-special-bindings
+          (mapcar
+           (lambda (sp)
+             (cons sp (symbol-name (key-binding (read-kbd-macro (format "C-c %c" sp))))))
+           grm-leader-special)))
   (grm-leader-ensure-priority-bindings)
   (when grm-leader-which-key
     (setq grm-leader-which-key-thread
@@ -307,21 +313,18 @@ KEY-STRING is the command to lookup."
                       unformatted))
                (setq unformatted (cons mod unformatted)))))
          (dolist (sp grm-leader-special)
-           (let (binding (key-binding (read-kbd-macro (format "C-c %c" sp) t)))
+           (setq unformatted
+                 (cl-remove-if
+                  (lambda (key)
+                    (string= (char-to-string sp) (car key)))
+                  unformatted))
+           (when (assq sp grm-special-bindings)
              (setq unformatted
-                   (cl-remove-if
-                    (lambda (key)
-                      (string= (char-to-string sp) (car key)))
-                    unformatted))
-             (when binding
-               (setq unformatted
-                     (cl-acons
-                      (char-to-string sp)
-                      (symbol-name binding)
-                      unformatted
-                      )))))
-         unformatted
-         )))))
+                   (cl-acons
+                    (char-to-string sp)
+                    (cdr (assq sp grm-special-bindings))
+                    unformatted))))
+         unformatted)))))
 
 (with-eval-after-load 'which-key
   (defun grm-which-key--create-buffer-and-show

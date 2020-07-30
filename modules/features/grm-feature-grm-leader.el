@@ -4,7 +4,7 @@
       grm-leader-maps-alist
       (mapcar
        (lambda (char)
-         (cons char (intern (format "grm-leader-C-%c-map" char))))
+         (cons char (intern (format "C-c C-%c-map" char))))
        grm-leader-special-map)
       grm-leader-special-command '(?o)
       grm-leader-special (append grm-leader-special-map grm-leader-special-command)
@@ -38,5 +38,7 @@
 (defun grm-leader-define-keys (map-char key-command-alist)
   (dolist (key-command key-command-alist)
     (grm-leader-define-key map-char (car key-command) (cdr key-command))))
+
+(global-set-key (kbd "C-c o") 'move-end-of-line)
 
 (provide 'grm-feature-grm-leader)
