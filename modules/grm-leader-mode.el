@@ -34,6 +34,7 @@ All predicates must return nil for grm-leader-local-mode to start."
 (defvar grm-current-bindings nil)
 (defvar grm-special-bindings nil)
 (defvar grm-last-key-string "")
+(defvar grm-universal-arg nil)
 
 (defvar grm-leader-local-mode-map
   (let ((map (make-sparse-keymap)))
@@ -212,7 +213,13 @@ KEY-STRING is the command to lookup."
     ;; `last-repeatable-command', which is used by `repeat'.
     (setq real-this-command binding)
     (if (commandp binding t)
-        (call-interactively binding)
+        (let* ((current-prefix-arg grm-universal-arg)
+               (binding
+                (if (and (consp current-prefix-arg)
+                         (eq binding 'universal-argument))
+                    'universal-argument-more
+                  binding)))
+          (call-interactively binding))
       (execute-kbd-macro binding))))
 
 (defun grm-leader-passes-predicates-p ()
@@ -234,8 +241,9 @@ KEY-STRING is the command to lookup."
       (which-key--hide-popup-ignore-command)))
   (grm-leader-local-mode -1))
 
-(defun grm-leader-mode-exec ()
-  (interactive)
+(defun grm-leader-mode-exec (arg)
+  (interactive "P")
+  (setq grm-universal-arg arg)
   (when (and grm-leader-global-mode
              (grm-leader-passes-predicates-p))
     (grm-leader-local-mode 1)))
