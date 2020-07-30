@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Ruby Frozen String Literal Header
+# key: frz-header
+# --
+# frozen_string_literal: true

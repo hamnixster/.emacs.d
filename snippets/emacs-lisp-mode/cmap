@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Custom gem-mode map binding
+# key: cmap
+# --
+(define-key ctrl-c-${map-key}-map (kbd "${key}") '${command})

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Rails module insert based on filename
+# key: mod
+# --
+`(grm-save-buffer-and-directories)``(rails-classify-file-modules)`
+  $0
+`(rails-classify-file-modules-ends)`

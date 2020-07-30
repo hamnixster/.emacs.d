@@ -1,0 +1,5 @@
+# This was cloned from a TextMate bundle for yasnippet.
+#group : Enumerables
+# key: mapwi
+# --
+map.with_index { |${1:e}, ${2:i}| $0 }
