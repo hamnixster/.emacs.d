@@ -13,13 +13,6 @@
  (global-grm-mode +1))
 
 (grm-feature-config-inline
- projectile
- (projectile-mode)
- (when (member 'helm grm-enabled-features-list)
-   (helm-projectile-on)
-   (defalias 'helm-ff-switch-to-eshell 'helm-ff-switch-to-shell)))
-
-(grm-feature-config-inline
  undo-tree
  (setq undo-tree-history-directory-alist
        `((".*" . ,temporary-file-directory))
@@ -59,6 +52,7 @@
  (defun grm-restart-emacs ()
    (interactive)
    (restart-emacs (list "-q" "--load" user-init-file)))
- (grm-leader-define-key ?q "C-r" 'grm-restart-emacs))
+ (when (member 'grm-leader-mode grm-enabled-features-list)
+   (grm-leader-define-key ?q "C-r" 'grm-restart-emacs)))
 
 (provide 'grm-inline-features)

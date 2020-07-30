@@ -1,6 +1,6 @@
 (require 'grm-leader-mode)
 (setq grm-leader-literal-key " "
-      grm-leader-special-map '(?q ?i)
+      grm-leader-special-map '(?q ?w ?f ?g ?i)
       grm-leader-maps-alist
       (mapcar
        (lambda (char)
@@ -34,5 +34,9 @@
     (cdr (assq map-char grm-leader-maps-alist))
     (kbd key-seq)
     command))
+
+(defun grm-leader-define-keys (map-char key-command-alist)
+  (dolist (key-command key-command-alist)
+    (grm-leader-define-key map-char (car key-command) (cdr key-command))))
 
 (provide 'grm-feature-grm-leader)

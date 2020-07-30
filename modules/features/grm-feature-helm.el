@@ -26,4 +26,11 @@
                (inhibit-same-window . t)
                (window-height . 0.4)))
 
+(global-set-key (kbd "C-x C-z") nil) ;; disable suspend frame
+(global-set-key (kbd "C-h C-a") 'helm-apropos)
+
+(when (member 'grm-mode grm-enabled-features-list)
+  (define-key grm-mode-map        (kbd "M-x")     'helm-M-x)
+  (define-key grm-mode-map        (kbd "C-x C-f") 'helm-find-files))
+
 (provide 'grm-feature-helm)

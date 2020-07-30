@@ -12,6 +12,7 @@
   (define-key transient-sticky-map "q" 'transient-quit-seq))
 
 (when (member 'grm-leader grm-enabled-features-list)
+  (grm-leader-define-key ?g "C-s" 'magit-status)
   (with-eval-after-load 'magit-mode
     (define-key magit-mode-map (kbd "SPC") 'grm-leader-mode-exec)))
 
