@@ -29,6 +29,8 @@
      key-chord
      yasnippet
      restart-emacs
+     smartparens
+     whitespace-cleanup-mode
      ))))
 
 (provide 'grm-custom)

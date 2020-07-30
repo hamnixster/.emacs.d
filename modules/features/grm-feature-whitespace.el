@@ -1,3 +1,4 @@
+(require 'whitespace)
 (setq
  whitespace-line-column 120
  whitespace-style '(face tabs trailing lines-tail))

@@ -64,6 +64,9 @@
    yas
    diff-hl
    diminish
+   smartparens
+   subword
+   whitespace-cleanup
    )
  )
 

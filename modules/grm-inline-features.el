@@ -55,4 +55,13 @@
  (when (member 'grm-leader-mode grm-enabled-features-list)
    (grm-leader-define-key ?q "C-r" 'grm-restart-emacs)))
 
+(grm-feature-config-inline
+ smartparens
+ (require 'smartparens-config)
+ (add-hook 'emacs-lisp-mode-hook #'smartparens-mode))
+
+(grm-feature-config-inline
+ whitespace-cleanup
+ (global-whitespace-cleanup-mode))
+
 (provide 'grm-inline-features)
