@@ -10,7 +10,7 @@
       grm-leader-special (append grm-leader-special-map grm-leader-special-command)
       grm-leader-mod-alist
       '((nil . "C-")
-        (" " . "")
+        ("SPC" . "")
         ("m" . "M-")
         ("," . "C-M-")
         ))

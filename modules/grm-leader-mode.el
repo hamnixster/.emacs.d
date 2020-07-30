@@ -90,6 +90,7 @@ All predicates must return nil for grm-leader-local-mode to start."
     (backspace "DEL")
     (return "RET")
     (escape "ESC")
+    (?\^\[ "ESC")
     (t (char-to-string key))))
 
 (defun grm-leader-key-string-after-consuming-key (key key-string-so-far)
@@ -162,7 +163,7 @@ KEY-STRING is the command to lookup."
     (setq grm-leader-which-key-thread (make-thread 'grm-leader-which-key-with-map))
     )
   (let ((sanitized-key
-         (if key-string-so-far (char-to-string (or key (read-key key-string-so-far)))
+         (if key-string-so-far (grm-leader-mode-sanitized-key-string (or key (read-key key-string-so-far)))
            (grm-leader-mode-sanitized-key-string (or key (read-key key-string-so-far))))))
     (when grm-leader-which-key
       (setq grm-leader-which-key-received t)
@@ -316,12 +317,12 @@ KEY-STRING is the command to lookup."
            (setq unformatted
                  (cl-remove-if
                   (lambda (key)
-                    (string= (char-to-string sp) (car key)))
+                    (string= (grm-leader-mode-sanitized-key-string sp) (car key)))
                   unformatted))
            (when (assq sp grm-special-bindings)
              (setq unformatted
                    (cl-acons
-                    (char-to-string sp)
+                    (grm-leader-mode-sanitized-key-string sp)
                     (cdr (assq sp grm-special-bindings))
                     unformatted))))
          unformatted)))))
