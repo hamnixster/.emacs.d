@@ -74,7 +74,7 @@ All predicates must return nil for grm-leader-local-mode to start."
   (when grm-leader-which-key
     (setq grm-leader-which-key-thread
           (make-thread 'grm-leader-which-key-top)))
-  (message "Awaiting input for GLeader ..."))
+  (message (cdr (assoc nil grm-leader-mod-alist))))
 
 (add-hook 'grm-leader-mode-enabled-hook 'grm-leader-accept-input)
 
@@ -97,7 +97,6 @@ All predicates must return nil for grm-leader-local-mode to start."
   "Interpret grm-leader-mode special keys for KEY (consumes more keys if
 appropriate). Append to keysequence."
   (let ((key-consumed t) next-modifier next-key)
-    (message key-string-so-far)
     (setq next-modifier
           (cond
            ((and
@@ -113,9 +112,10 @@ appropriate). Append to keysequence."
           (if key-consumed
               (progn
                 (message
-                 (format "%s %s"
-                         (if key-string-so-far key-string-so-far "")
-                         (cdr (assoc key grm-leader-mod-alist))))
+                 (format
+                  "%s%s"
+                  (if key-string-so-far (format "%s " key-string-so-far) "")
+                  next-modifier))
                 (when grm-leader-which-key
                   (setq grm-leader-which-key-map
                         (if key-string-so-far
@@ -162,6 +162,14 @@ KEY-STRING is the command to lookup."
     (setq grm-leader-which-key-mod (cdr (assoc nil grm-leader-mod-alist)))
     (setq grm-leader-which-key-thread (make-thread 'grm-leader-which-key-with-map))
     )
+
+  (when (eq nil key)
+    (message
+     (format
+      "%s%s"
+      (if key-string-so-far (format "%s " key-string-so-far) "")
+      (cdr (assoc nil grm-leader-mod-alist)))))
+
   (let ((sanitized-key
          (if key-string-so-far (grm-leader-mode-sanitized-key-string (or key (read-key key-string-so-far)))
            (grm-leader-mode-sanitized-key-string (or key (read-key key-string-so-far))))))
