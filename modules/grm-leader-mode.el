@@ -283,6 +283,32 @@ KEY-STRING is the command to lookup."
   (interactive)
   (setq grm-leader-global-mode (not grm-leader-global-mode)))
 
+(defun grm-leader-setup-special-maps ()
+  (setq grm-leader-maps-alist
+        (mapcar
+         (lambda (char)
+           (cons char (intern (format "C-c %c map" char))))
+         grm-leader-special-map))
+  (dolist (map-key grm-leader-maps-alist)
+    (define-prefix-command (cdr map-key)))
+  )
+
+(defun grm-leader-bind-special-maps (host-map)
+  (dolist (map-key grm-leader-maps-alist)
+    (define-key host-map
+      (kbd (format "C-c %c" (car map-key)))
+      (cdr map-key))))
+
+(defun grm-leader-define-key (map-char key-seq command)
+  (define-key
+    (cdr (assq map-char grm-leader-maps-alist))
+    (kbd key-seq)
+    command))
+
+(defun grm-leader-define-keys (map-char key-command-alist)
+  (dolist (key-command key-command-alist)
+    (grm-leader-define-key map-char (car key-command) (cdr key-command))))
+
 (defun grm-leader-which-key-with-map ()
   (let* ((map grm-leader-which-key-map)
          (mod grm-leader-which-key-mod)
