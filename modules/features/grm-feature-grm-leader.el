@@ -4,7 +4,7 @@
       grm-leader-maps-alist
       (mapcar
        (lambda (char)
-         (cons char (intern (format "C-c C-%c-map" char))))
+         (cons char (intern (format "C-c %c map" char))))
        grm-leader-special-map)
       grm-leader-special-command '(?o)
       grm-leader-special (append grm-leader-special-map grm-leader-special-command)
