@@ -1,16 +1,10 @@
 (require 'cl-lib)
 (require 's)
 
-(defcustom grm-leader-literal-key
-  " "
-  "The key used for literal interpretation."
-  :group 'grm-leader
-  :type 'string)
-
 (defcustom grm-leader-mod-alist
   '((nil . "C-")
-    (" " . ""))
-  "List of keys and their associated modifer."
+    ("SPC" . ""))
+  "List of keys and their associated modifier."
   :group 'grm-leader
   :type '(alist))
 
@@ -24,7 +18,10 @@ All predicates must return nil for grm-leader-local-mode to start."
 (defvar grm-leader-global-mode nil
   "Activate GLeader mode on all buffers?")
 
+(defvar grm-leader-special-map nil)
+(defvar grm-leader-special-command nil)
 (defvar grm-leader-special nil)
+(defvar grm-leader-maps-alist nil)
 
 (defvar grm-leader-which-key nil)
 (defvar grm-leader-which-key-thread nil)
@@ -228,7 +225,12 @@ KEY-STRING is the command to lookup."
     (grm-leader-mode-lookup-command
      (cond ((and key (member key grm-leader-special) (null key-string-so-far))
             (format "C-c %c" key))
-           ((and key (eq key (string-to-char grm-leader-literal-key)) (null key-string-so-far))
+           ((and key
+                 (string=
+                  (grm-leader-mode-sanitized-key-string key)
+                  (car (rassq "" grm-leader-mod-alist))
+                  )
+                 (null key-string-so-far))
             "")
            (:else
             (grm-leader-key-string-after-consuming-key sanitized-key key-string-so-far))))))
@@ -300,16 +302,24 @@ KEY-STRING is the command to lookup."
         (mapcar
          (lambda (char)
            (cons char (intern (format "C-c %c map" char))))
-         grm-leader-special-map))
+         grm-leader-special-map)
+        grm-leader-special
+        (append grm-leader-special-map grm-leader-special-command))
   (dolist (map-key grm-leader-maps-alist)
     (define-prefix-command (cdr map-key)))
   )
 
-(defun grm-leader-bind-special-maps (host-map)
+(defun grm-leader-bind-special-maps (&optional host-map)
   (dolist (map-key grm-leader-maps-alist)
-    (define-key host-map
-      (kbd (format "C-c %c" (car map-key)))
-      (cdr map-key))))
+    (if host-map
+        (define-key host-map
+          (kbd (format "C-c %c" (car map-key)))
+          (cdr map-key))
+      (global-set-key
+       (kbd (format "C-c %c" (car map-key)))
+       (cdr map-key))
+      )
+    ))
 
 (defun grm-leader-define-key (map-char key-seq command)
   (define-key
@@ -345,13 +355,13 @@ KEY-STRING is the command to lookup."
                  (cl-remove-if
                   (lambda (key)
                     (string=
-                     (grm-leader-mode-sanitized-key-string (string-to-char grm-leader-literal-key))
+                     (car (rassq "" grm-leader-mod-alist))
                      (car key)))
                   unformatted))
            (setq unformatted
                  (cons
                   (cons
-                   (grm-leader-mode-sanitized-key-string (string-to-char grm-leader-literal-key))
+                   (car (rassq "" grm-leader-mod-alist))
                    "no-modifier")
                   unformatted))
            (dolist (mod grm-leader-mod-alist)
@@ -380,7 +390,7 @@ KEY-STRING is the command to lookup."
            (re-literal-matcher
             (format "%s%s"
                     matcher
-                    (grm-leader-mode-sanitized-key-string (string-to-char grm-leader-literal-key))))
+                    (car (rassq "" grm-leader-mod-alist))))
            (non-matcher (format "%s.-" matcher)))
       (grm-which-key--create-buffer-and-show
        nil nil
@@ -393,9 +403,10 @@ KEY-STRING is the command to lookup."
          (dolist (key unformatted)
            (setcar key (replace-regexp-in-string mod "" (car key))))
          (setq unformatted
-               (cl-acons (grm-leader-mode-sanitized-key-string (string-to-char grm-leader-literal-key))
-                         "grm-leader-mode-deactivate"
-                         unformatted))
+               (cl-acons
+                (car (rassq "" grm-leader-mod-alist))
+                "grm-leader-mode-deactivate"
+                unformatted))
          (dolist (mod grm-leader-mod-alist)
            (when (not (or (eq nil (car mod)) (string= "" (cdr mod))))
              (progn
