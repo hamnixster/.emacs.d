@@ -18,6 +18,7 @@ All predicates must return nil for grm-leader-local-mode to start."
 (defvar grm-leader-global-mode nil
   "Activate GLeader mode on all buffers?")
 
+(defvar grm-leader-no-modifier-top-level-command 'grm-leader-mode-deactivate)
 (defvar grm-leader-special-map nil)
 (defvar grm-leader-special-command nil)
 (defvar grm-leader-special nil)
@@ -39,7 +40,6 @@ All predicates must return nil for grm-leader-local-mode to start."
     (define-key map [remap self-insert-command] 'grm-leader-mode-self-insert)
     (dolist (i (number-sequence 32 255))
       (define-key map (vector i) 'grm-leader-mode-self-insert))
-    (define-key map [escape] 'grm-leader-mode-deactivate)
     map))
 
 (define-minor-mode grm-leader-local-mode
@@ -183,11 +183,10 @@ KEY-STRING is the command to lookup."
           ((keymapp binding)
            (grm-leader-mode-lookup-key-sequence nil key-string))
           ((eq "" key-string)
-           (message "Bailing from GLeader.")
-           'grm-leader-mode-deactivate)
+           grm-leader-no-modifier-top-level-command)
           (:else
-           (grm-leader-mode-deactivate)
-           (error "GLeader: Unknown key binding for `%s`" key-string)))))
+           (message "GLeader: Unknown key binding for `%s`" key-string)
+           'grm-leader-mode-deactivate))))
 
 (defun grm-leader-mode-lookup-key-sequence (&optional key key-string-so-far)
   (interactive)
@@ -405,7 +404,7 @@ KEY-STRING is the command to lookup."
          (setq unformatted
                (cl-acons
                 (car (rassq "" grm-leader-mod-alist))
-                "grm-leader-mode-deactivate"
+                (symbol-name grm-leader-no-modifier-top-level-command)
                 unformatted))
          (dolist (mod grm-leader-mod-alist)
            (when (not (or (eq nil (car mod)) (string= "" (cdr mod))))

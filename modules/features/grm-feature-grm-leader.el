@@ -1,5 +1,6 @@
 (require 'grm-leader-mode)
 (setq
+ grm-leader-no-modifier-top-level-command 'helm-M-x
  grm-leader-special-map '(?q ?w ?f ?g ?i)
  grm-leader-special-command '(?o)
  grm-leader-mod-alist
@@ -22,5 +23,7 @@
 
 (when (member 'which-key grm-enabled-features-list)
   (setq grm-leader-which-key t))
+
+(define-key grm-leader-local-mode-map [escape] 'grm-leader-mode-deactivate)
 
 (provide 'grm-feature-grm-leader)
