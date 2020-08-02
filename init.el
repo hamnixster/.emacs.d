@@ -2,6 +2,8 @@
       gc-cons-percentage 0.6
       file-name-handler-alist nil)
 
+;; (setq debug-on-error t)
+
 (setq user-init-file (or load-file-name (buffer-file-name)))
 (setq user-emacs-directory (file-name-directory user-init-file))
 (defvar grm-base-dir      user-emacs-directory)
