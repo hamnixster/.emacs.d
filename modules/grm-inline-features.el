@@ -74,7 +74,10 @@
   (add-hook 'text-mode-hook 'fira-code-mode))
 
 (grm-feature-config-inline avy
-  (setq avy-keys '(?a ?r ?s ?t ?n ?e ?i ?o))
+  (cond ((eq 'colemack grm-keyboard-layout)
+         (setq avy-keys '(?a ?r ?s ?t ?n ?e ?i ?o)))
+        ((eq 'qwerty grm-keyboard-layout)
+         (setq avy-keys '(?a ?s ?d ?f ?h ?j ?k ?l))))
   (define-key grm-mode-map (kbd "C-c :") 'avy-goto-char))
 
 (provide 'grm-inline-features)

@@ -20,15 +20,36 @@
      ("C-s" . evil-window-split)
      ("C-r" . evil-window-vsplit)
      ("C-q" . evil-quit)
-     ("C-n" . evil-window-left)
-     ("C-e" . evil-window-down)
-     ("C-i" . evil-window-up)
-     ("C-o" . evil-window-right)
-     ("n" . evil-window-move-far-left)
-     ("e" . evil-window-move-very-bottom)
-     ("i" . evil-window-move-very-top)
-     ("o" . evil-window-move-far-right)
-     )))
+     ))
+  (cond
+   ((eq 'colemack grm-keyboard-layout)
+    (ft-leader-define-keys
+     ?w
+     '(
+       ("C-n" . evil-window-left)
+       ("C-e" . evil-window-down)
+       ("C-i" . evil-window-up)
+       ("C-o" . evil-window-right)
+       ("n" . evil-window-move-far-left)
+       ("e" . evil-window-move-very-bottom)
+       ("i" . evil-window-move-very-top)
+       ("o" . evil-window-move-far-right)
+       )))
+   ((eq 'qwerty grm-keyboard-layout)
+    (ft-leader-define-keys
+     ?w
+     '(
+       ("C-h" . evil-window-left)
+       ("C-j" . evil-window-down)
+       ("C-k" . evil-window-up)
+       ("C-l" . evil-window-right)
+       ("h" . evil-window-move-far-left)
+       ("j" . evil-window-move-very-bottom)
+       ("k" . evil-window-move-very-top)
+       ("l" . evil-window-move-far-right)
+       )))
+   )
+  )
 
 (when (member 'evil-nerd-commenter package-selected-packages)
   (require 'evil-nerd-commenter)

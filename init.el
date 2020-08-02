@@ -34,6 +34,7 @@
  grm-theme                       'nord
  grm-whitespace-background-color "#3b4252"
  grm-start-in-emacs-modes        '(dired-mode calendar-mode image-mode gnugo-board-mode)
+ grm-keyboard-layout             'colemack
  grm-startup-quotes
  '(
    "The computer revolution is a revolution in the way we think and in the way we express what we think."
