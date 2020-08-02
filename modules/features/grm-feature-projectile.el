@@ -2,8 +2,8 @@
 (when (member 'helm grm-enabled-features-list)
   (helm-projectile-on)
   (defalias 'helm-ff-switch-to-eshell 'helm-ff-switch-to-shell)
-  (when (member 'grm-leader grm-enabled-features-list)
-    (grm-leader-define-keys
+  (when (member 'ft-leader grm-enabled-features-list)
+    (ft-leader-define-keys
      ?f
      '(
        ("C-f" . grm-try-helm-projectile-find-file-dwim)

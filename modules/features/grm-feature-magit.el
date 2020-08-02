@@ -11,9 +11,9 @@
   (define-key transient-edit-map   "q" 'transient-quit-one)
   (define-key transient-sticky-map "q" 'transient-quit-seq))
 
-(when (member 'grm-leader grm-enabled-features-list)
-  (grm-leader-define-key ?g "C-s" 'magit-status)
+(when (member 'ft-leader grm-enabled-features-list)
+  (ft-leader-define-key ?g "C-s" 'magit-status)
   (with-eval-after-load 'magit-mode
-    (define-key magit-mode-map (kbd "SPC") 'grm-leader-mode-exec)))
+    (define-key magit-mode-map (kbd "SPC") 'ft-leader-mode-exec)))
 
 (provide 'grm-feature-magit)

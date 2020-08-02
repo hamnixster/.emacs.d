@@ -43,8 +43,8 @@
   (defun grm-restart-emacs ()
     (interactive)
     (restart-emacs (list "-q" "--load" user-init-file)))
-  (when (member 'grm-leader grm-enabled-features-list)
-    (grm-leader-define-key ?q "C-r" 'grm-restart-emacs)))
+  (when (member 'ft-leader grm-enabled-features-list)
+    (ft-leader-define-key ?q "C-r" 'grm-restart-emacs)))
 
 (grm-feature-config-inline smartparens
   (require 'smartparens-config)
@@ -58,7 +58,7 @@
   (add-hook 'ruby-mode-hook #'aggressive-indent-mode))
 
 (grm-feature-config-inline markdown
-  (when (member 'grm-leader package-selected-packages)
+  (when (member 'ft-leader package-selected-packages)
     (add-hook 'markdown-mode-hook #'markdownfmt-enable-on-save)))
 
 (grm-feature-config-inline highlight-symbol

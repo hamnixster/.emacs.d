@@ -8,12 +8,12 @@
 (dolist (mode grm-start-in-emacs-modes)
   (evil-set-initial-state mode 'emacs))
 
-(when (member 'grm-leader grm-enabled-features-list)
-  (add-hook 'evil-local-mode-hook #'grm-leader-ensure-priority-bindings)
-  (define-key evil-normal-state-map (kbd "SPC") 'grm-leader-mode-exec)
-  (define-key evil-visual-state-map (kbd "SPC") 'grm-leader-mode-exec)
-  (define-key evil-motion-state-map (kbd "SPC") 'grm-leader-mode-exec)
-  (grm-leader-define-keys
+(when (member 'ft-leader grm-enabled-features-list)
+  (add-hook 'evil-local-mode-hook #'ft-leader-ensure-priority-bindings)
+  (define-key evil-normal-state-map (kbd "SPC") 'ft-leader-mode-exec)
+  (define-key evil-visual-state-map (kbd "SPC") 'ft-leader-mode-exec)
+  (define-key evil-motion-state-map (kbd "SPC") 'ft-leader-mode-exec)
+  (ft-leader-define-keys
    ?w
    '(
      ("C-a" . balance-windows)

@@ -42,7 +42,7 @@
  '(
    no-littering
    grm-mode
-   grm-leader
+   ft-leader
    key-chord
    visual
    emacs

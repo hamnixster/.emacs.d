@@ -1,95 +1,94 @@
 (require 'cl-lib)
-(require 's)
 
-(defcustom grm-leader-mod-alist
+(defcustom ft-leader-mod-alist
   '((nil . "C-")
     ("SPC" . ""))
   "List of keys and their associated modifier."
-  :group 'grm-leader
+  :group 'ft-leader
   :type '(alist))
 
-(defcustom grm-leader-exempt-predicates
+(defcustom ft-leader-exempt-predicates
   '()
-  "List of predicates checked before enabling grm-leader-local-mode.
-All predicates must return nil for grm-leader-local-mode to start."
-  :group 'grm-leader
+  "List of predicates checked before enabling ft-leader-local-mode.
+All predicates must return nil for ft-leader-local-mode to start."
+  :group 'ft-leader
   :type '(repeat function))
 
-(defvar grm-leader-global-mode nil
+(defvar ft-leader-global-mode nil
   "Activate GLeader mode on all buffers?")
 
-(defvar grm-leader-no-modifier-top-level-command 'grm-leader-mode-deactivate)
-(defvar grm-leader-special-map nil)
-(defvar grm-leader-special-command nil)
-(defvar grm-leader-special nil)
-(defvar grm-leader-maps-alist nil)
+(defvar ft-leader-no-modifier-top-level-command 'ft-leader-mode-deactivate)
+(defvar ft-leader-special-map nil)
+(defvar ft-leader-special-command nil)
+(defvar ft-leader-special nil)
+(defvar ft-leader-maps-alist nil)
 
-(defvar grm-leader-which-key nil)
-(defvar grm-leader-which-key-thread nil)
-(defvar grm-leader-which-key-received nil)
-(defvar grm-leader-which-key-map nil)
-(defvar grm-leader-which-key-mod nil)
-(defvar grm-current-bindings nil)
-(defvar grm-special-bindings nil)
-(defvar grm-last-key-string "")
-(defvar grm-universal-arg nil)
+(defvar ft-leader-which-key nil)
+(defvar ft-leader-which-key-thread nil)
+(defvar ft-leader-which-key-received nil)
+(defvar ft-leader-which-key-map nil)
+(defvar ft-leader-which-key-mod nil)
+(defvar ft-current-bindings nil)
+(defvar ft-special-bindings nil)
+(defvar ft-last-key-string "")
+(defvar ft-universal-arg nil)
 
-(defvar grm-leader-local-mode-map
+(defvar ft-leader-local-mode-map
   (let ((map (make-sparse-keymap)))
     (suppress-keymap map t)
-    (define-key map [remap self-insert-command] 'grm-leader-mode-self-insert)
+    (define-key map [remap self-insert-command] 'ft-leader-mode-self-insert)
     (dolist (i (number-sequence 32 255))
-      (define-key map (vector i) 'grm-leader-mode-self-insert))
+      (define-key map (vector i) 'ft-leader-mode-self-insert))
     map))
 
-(define-minor-mode grm-leader-local-mode
+(define-minor-mode ft-leader-local-mode
   "Minor mode for running commands."
-  nil " GLeader" grm-leader-local-mode-map
-  (if grm-leader-local-mode
-      (run-hooks 'grm-leader-mode-enabled-hook)
-    (run-hooks 'grm-leader-mode-disabled-hook)))
+  nil " FTLeader" ft-leader-local-mode-map
+  (if ft-leader-local-mode
+      (run-hooks 'ft-leader-mode-enabled-hook)
+    (run-hooks 'ft-leader-mode-disabled-hook)))
 
-(defun grm-leader-ensure-priority-bindings ()
+(defun ft-leader-ensure-priority-bindings ()
   (unless (and (listp (car emulation-mode-map-alists))
-               (car (assoc 'grm-leader-local-mode (car emulation-mode-map-alists))))
+               (car (assoc 'ft-leader-local-mode (car emulation-mode-map-alists))))
     (cl-delete-if
      (lambda (alist)
        (and (listp alist)
-            (car (assoc 'grm-leader-local-mode alist))))
+            (car (assoc 'ft-leader-local-mode alist))))
      emulation-mode-map-alists)
     (add-to-list
      'emulation-mode-map-alists
-     `((grm-leader-local-mode . ,grm-leader-local-mode-map)))))
+     `((ft-leader-local-mode . ,ft-leader-local-mode-map)))))
 
-(defun grm-leader-accept-input ()
-  (when grm-leader-which-key
-    (setq grm-current-bindings (which-key--get-current-bindings)
-          grm-special-bindings
+(defun ft-leader-accept-input ()
+  (when ft-leader-which-key
+    (setq ft-current-bindings (which-key--get-current-bindings)
+          ft-special-bindings
           (mapcar
            (lambda (sp)
              (cons sp (symbol-name (key-binding (read-kbd-macro (format "C-c %c" sp))))))
-           grm-leader-special)))
-  (grm-leader-ensure-priority-bindings)
-  (when grm-leader-which-key
-    (setq grm-leader-which-key-thread
-          (make-thread 'grm-leader-which-key-top)))
-  (setq grm-last-key-string
+           ft-leader-special)))
+  (ft-leader-ensure-priority-bindings)
+  (when ft-leader-which-key
+    (setq ft-leader-which-key-thread
+          (make-thread 'ft-leader-which-key-top)))
+  (setq ft-last-key-string
         (format
          "%s%s"
-         (if grm-universal-arg
-             (if (consp grm-universal-arg)
+         (if ft-universal-arg
+             (if (consp ft-universal-arg)
                  (apply 'concat
-                        (make-list (floor (log (car grm-universal-arg) 4))
+                        (make-list (floor (log (car ft-universal-arg) 4))
                                    "C-u "))
-               (format "C-u %s " grm-universal-arg))
+               (format "C-u %s " ft-universal-arg))
            "")
-         (cdr (assoc nil grm-leader-mod-alist))))
+         (cdr (assoc nil ft-leader-mod-alist))))
   (let (message-log-max)
-    (message grm-last-key-string)))
+    (message ft-last-key-string)))
 
-(add-hook 'grm-leader-mode-enabled-hook 'grm-leader-accept-input)
+(add-hook 'ft-leader-mode-enabled-hook 'ft-leader-accept-input)
 
-(defun grm-leader-mode-sanitized-key-string (key)
+(defun ft-leader-mode-sanitized-key-string (key)
   "Convert any special events to textual."
   (cl-case key
     (tab "TAB")
@@ -104,53 +103,53 @@ All predicates must return nil for grm-leader-local-mode to start."
     (?\^\[ "ESC")
     (t (char-to-string key))))
 
-(defun grm-leader-key-string-after-consuming-key (key key-string-so-far)
-  "Interpret grm-leader-mode special keys for KEY (consumes more keys if
+(defun ft-leader-key-string-after-consuming-key (key key-string-so-far)
+  "Interpret ft-leader-mode special keys for KEY (consumes more keys if
 appropriate). Append to keysequence."
   (let ((key-consumed t) next-modifier next-key)
     (setq next-modifier
           (cond
            ((and
              (stringp key)
-             (not (eq nil (assoc key grm-leader-mod-alist)))
+             (not (eq nil (assoc key ft-leader-mod-alist)))
              (not (eq nil key)))
-            (cdr (assoc key grm-leader-mod-alist)))
+            (cdr (assoc key ft-leader-mod-alist)))
            (t
             (setq key-consumed nil)
-            (cdr (assoc nil grm-leader-mod-alist))
+            (cdr (assoc nil ft-leader-mod-alist))
             )))
     (setq next-key
           (if key-consumed
               (progn
-                (setq grm-last-key-string
+                (setq ft-last-key-string
                       (format
                        "%s%s"
-                       (if grm-universal-arg
-                           (if (consp grm-universal-arg)
+                       (if ft-universal-arg
+                           (if (consp ft-universal-arg)
                                (apply 'concat
-                                      (make-list (floor (log (car grm-universal-arg) 4))
+                                      (make-list (floor (log (car ft-universal-arg) 4))
                                                  "C-u "))
-                             (format "C-u %s " grm-universal-arg))
+                             (format "C-u %s " ft-universal-arg))
                          "")
                        (format
                         "%s%s"
                         (if key-string-so-far (format "%s " key-string-so-far) "")
                         next-modifier)))
                 (let (message-log-max)
-                  (message grm-last-key-string))
-                (when grm-leader-which-key
-                  (setq grm-leader-which-key-map
+                  (message ft-last-key-string))
+                (when ft-leader-which-key
+                  (setq ft-leader-which-key-map
                         (if key-string-so-far
                             (key-binding (read-kbd-macro key-string-so-far t))
                           nil))
-                  (setq grm-leader-which-key-mod (cdr (assoc key grm-leader-mod-alist)))
-                  (setq grm-leader-which-key-thread (make-thread 'grm-leader-which-key-with-map))
+                  (setq ft-leader-which-key-mod (cdr (assoc key ft-leader-mod-alist)))
+                  (setq ft-leader-which-key-thread (make-thread 'ft-leader-which-key-with-map))
                   )
-                (grm-leader-mode-sanitized-key-string (read-key key-string-so-far)))
+                (ft-leader-mode-sanitized-key-string (read-key key-string-so-far)))
             key))
 
-    (when grm-leader-which-key
-      (setq grm-leader-which-key-received t)
+    (when ft-leader-which-key
+      (setq ft-leader-which-key-received t)
       (let ((which-key-inhibit t))
         (which-key--hide-popup-ignore-command)))
 
@@ -158,97 +157,99 @@ appropriate). Append to keysequence."
         (concat key-string-so-far " " next-modifier next-key)
       (concat next-modifier next-key))))
 
-(defun grm-leader-mode-lookup-command (key-string)
+(defun ft-leader-mode-lookup-command (key-string)
   "Execute extended keymaps such as C-c, or call command.
 KEY-STRING is the command to lookup."
   (let* ((key-vector (read-kbd-macro key-string t))
          (binding (key-binding key-vector)))
     (cond ((commandp binding)
            (setq last-command-event (aref key-vector (- (length key-vector) 1)))
-           (grm-leader-mode-deactivate)
-           (setq grm-last-key-string
+           (ft-leader-mode-deactivate)
+           (setq ft-last-key-string
                  (format
                   "%s%s"
-                  (if grm-universal-arg
-                      (if (consp grm-universal-arg)
+                  (if ft-universal-arg
+                      (if (consp ft-universal-arg)
                           (apply 'concat
-                                 (make-list (floor (log (car grm-universal-arg) 4))
+                                 (make-list (floor (log (car ft-universal-arg) 4))
                                             "C-u "))
-                        (format "C-u %s " grm-universal-arg))
+                        (format "C-u %s " ft-universal-arg))
                     "")
                   key-string))
            (let (message-log-max)
-             (message grm-last-key-string))
+             (message ft-last-key-string))
            binding)
           ((keymapp binding)
-           (grm-leader-mode-lookup-key-sequence nil key-string))
+           (ft-leader-mode-lookup-key-sequence nil key-string))
           ((eq "" key-string)
-           grm-leader-no-modifier-top-level-command)
+           (when (not (eq ft-leader-no-modifier-top-level-command 'ft-leader-mode-deactivate))
+             (ft-leader-mode-deactivate))
+           ft-leader-no-modifier-top-level-command)
           (:else
-           (message "GLeader: Unknown key binding for `%s`" key-string)
-           'grm-leader-mode-deactivate))))
+           (message "FTLeader: Unknown key binding for `%s`" key-string)
+           'ft-leader-mode-deactivate))))
 
-(defun grm-leader-mode-lookup-key-sequence (&optional key key-string-so-far)
+(defun ft-leader-mode-lookup-key-sequence (&optional key key-string-so-far)
   (interactive)
-  (when (and grm-leader-which-key (eq nil key))
-    (setq grm-leader-which-key-map (key-binding (read-kbd-macro key-string-so-far t)))
-    (setq grm-leader-which-key-mod (cdr (assoc nil grm-leader-mod-alist)))
-    (setq grm-leader-which-key-thread (make-thread 'grm-leader-which-key-with-map))
+  (when (and ft-leader-which-key (eq nil key))
+    (setq ft-leader-which-key-map (key-binding (read-kbd-macro key-string-so-far t)))
+    (setq ft-leader-which-key-mod (cdr (assoc nil ft-leader-mod-alist)))
+    (setq ft-leader-which-key-thread (make-thread 'ft-leader-which-key-with-map))
     )
 
   (when (eq nil key)
-    (setq grm-last-key-string
+    (setq ft-last-key-string
           (format
            "%s%s"
-           (if grm-universal-arg
-               (if (consp grm-universal-arg)
+           (if ft-universal-arg
+               (if (consp ft-universal-arg)
                    (apply 'concat
-                          (make-list (floor (log (car grm-universal-arg) 4))
+                          (make-list (floor (log (car ft-universal-arg) 4))
                                      "C-u "))
-                 (format "C-u %s " grm-universal-arg))
+                 (format "C-u %s " ft-universal-arg))
              "")
            (format
             "%s%s"
             (if key-string-so-far (format "%s " key-string-so-far) "")
-            (cdr (assoc nil grm-leader-mod-alist)))))
+            (cdr (assoc nil ft-leader-mod-alist)))))
     (let (message-log-max)
-      (message grm-last-key-string)))
+      (message ft-last-key-string)))
 
   (let ((sanitized-key
-         (if key-string-so-far (grm-leader-mode-sanitized-key-string (or key (read-key key-string-so-far)))
-           (grm-leader-mode-sanitized-key-string (or key (read-key key-string-so-far))))))
-    (when grm-leader-which-key
-      (setq grm-leader-which-key-received t)
+         (if key-string-so-far (ft-leader-mode-sanitized-key-string (or key (read-key key-string-so-far)))
+           (ft-leader-mode-sanitized-key-string (or key (read-key key-string-so-far))))))
+    (when ft-leader-which-key
+      (setq ft-leader-which-key-received t)
       (let ((which-key-inhibit t))
         (which-key--hide-popup-ignore-command)))
-    (grm-leader-mode-lookup-command
-     (cond ((and key (member key grm-leader-special) (null key-string-so-far))
+    (ft-leader-mode-lookup-command
+     (cond ((and key (member key ft-leader-special) (null key-string-so-far))
             (format "C-c %c" key))
            ((and key
                  (string=
-                  (grm-leader-mode-sanitized-key-string key)
-                  (car (rassq "" grm-leader-mod-alist))
+                  (ft-leader-mode-sanitized-key-string key)
+                  (car (rassq "" ft-leader-mod-alist))
                   )
                  (null key-string-so-far))
             "")
            (:else
-            (grm-leader-key-string-after-consuming-key sanitized-key key-string-so-far))))))
+            (ft-leader-key-string-after-consuming-key sanitized-key key-string-so-far))))))
 
-(defun grm-leader-mode-upper-p (char)
+(defun ft-leader-mode-upper-p (char)
   "Is the given CHAR upper case?"
   (and (>= char ?A) (<= char ?Z)))
 
-(defun grm-leader-mode-self-insert ()
+(defun ft-leader-mode-self-insert ()
   "Handle self-insert keys."
   (interactive)
-  (when grm-leader-which-key
-    (setq grm-leader-which-key-received t)
+  (when ft-leader-which-key
+    (setq ft-leader-which-key-received t)
     (let ((which-key-inhibit t))
       (which-key--hide-popup-ignore-command)))
   (let* ((command-vec (this-command-keys-vector))
          (initial-key (aref command-vec (- (length command-vec) 1)))
-         (binding (grm-leader-mode-lookup-key-sequence initial-key)))
-    (when (grm-leader-mode-upper-p initial-key)
+         (binding (ft-leader-mode-lookup-key-sequence initial-key)))
+    (when (ft-leader-mode-upper-p initial-key)
       (setq this-command-keys-shift-translated t))
     (setq this-original-command binding)
     (setq this-command binding)
@@ -256,7 +257,7 @@ KEY-STRING is the command to lookup."
     ;; `last-repeatable-command', which is used by `repeat'.
     (setq real-this-command binding)
     (if (commandp binding t)
-        (let* ((current-prefix-arg grm-universal-arg)
+        (let* ((current-prefix-arg ft-universal-arg)
                (binding
                 (if (and (consp current-prefix-arg)
                          (eq binding 'universal-argument))
@@ -265,51 +266,51 @@ KEY-STRING is the command to lookup."
           (call-interactively binding))
       (execute-kbd-macro binding))))
 
-(defun grm-leader-passes-predicates-p ()
-  "Return non-nil if all `grm-leader-exempt-predicates' return nil."
+(defun ft-leader-passes-predicates-p ()
+  "Return non-nil if all `ft-leader-exempt-predicates' return nil."
   (not
    (catch 'disable
-     (let ((preds grm-leader-exempt-predicates))
+     (let ((preds ft-leader-exempt-predicates))
        (while preds
          (when (funcall (car preds))
            (throw 'disable t))
          (setq preds (cdr preds)))))))
 
-(defun grm-leader-mode-deactivate ()
+(defun ft-leader-mode-deactivate ()
   "Deactivate GLeader mode locally."
   (interactive)
-  (when grm-leader-which-key
-    (setq grm-leader-which-key-received t)
+  (when ft-leader-which-key
+    (setq ft-leader-which-key-received t)
     (let ((which-key-inhibit t))
       (which-key--hide-popup-ignore-command)))
-  (grm-leader-local-mode -1))
+  (ft-leader-local-mode -1))
 
-(defun grm-leader-mode-exec (arg)
+(defun ft-leader-mode-exec (arg)
   (interactive "P")
-  (setq grm-universal-arg arg)
-  (when (and grm-leader-global-mode
-             (grm-leader-passes-predicates-p))
-    (grm-leader-local-mode 1)))
+  (setq ft-universal-arg arg)
+  (when (and ft-leader-global-mode
+             (ft-leader-passes-predicates-p))
+    (ft-leader-local-mode 1)))
 
-(defun grm-leader-mode ()
+(defun ft-leader-mode ()
   "Toggle global GLeader mode."
   (interactive)
-  (setq grm-leader-global-mode (not grm-leader-global-mode)))
+  (setq ft-leader-global-mode (not ft-leader-global-mode)))
 
-(defun grm-leader-setup-special-maps ()
-  (setq grm-leader-maps-alist
+(defun ft-leader-setup-special-maps ()
+  (setq ft-leader-maps-alist
         (mapcar
          (lambda (char)
            (cons char (intern (format "C-c %c map" char))))
-         grm-leader-special-map)
-        grm-leader-special
-        (append grm-leader-special-map grm-leader-special-command))
-  (dolist (map-key grm-leader-maps-alist)
+         ft-leader-special-map)
+        ft-leader-special
+        (append ft-leader-special-map ft-leader-special-command))
+  (dolist (map-key ft-leader-maps-alist)
     (define-prefix-command (cdr map-key)))
   )
 
-(defun grm-leader-bind-special-maps (&optional host-map)
-  (dolist (map-key grm-leader-maps-alist)
+(defun ft-leader-bind-special-maps (&optional host-map)
+  (dolist (map-key ft-leader-maps-alist)
     (if host-map
         (define-key host-map
           (kbd (format "C-c %c" (car map-key)))
@@ -320,50 +321,50 @@ KEY-STRING is the command to lookup."
       )
     ))
 
-(defun grm-leader-define-key (map-char key-seq command)
+(defun ft-leader-define-key (map-char key-seq command)
   (define-key
-    (cdr (assq map-char grm-leader-maps-alist))
+    (cdr (assq map-char ft-leader-maps-alist))
     (kbd key-seq)
     command))
 
-(defun grm-leader-define-keys (map-char key-command-alist)
+(defun ft-leader-define-keys (map-char key-command-alist)
   (dolist (key-command key-command-alist)
-    (grm-leader-define-key map-char (car key-command) (cdr key-command))))
+    (ft-leader-define-key map-char (car key-command) (cdr key-command))))
 
-(defun grm-leader-which-key-with-map ()
-  (let* ((map grm-leader-which-key-map)
-         (mod grm-leader-which-key-mod)
+(defun ft-leader-which-key-with-map ()
+  (let* ((map ft-leader-which-key-map)
+         (mod ft-leader-which-key-mod)
          (matcher (format "^<?%s" mod))
          (non-matcher (format "%s.-" matcher)))
-    (setq grm-leader-which-key-received nil)
+    (setq ft-leader-which-key-received nil)
     (sit-for which-key-idle-delay)
-    (when (and grm-leader-local-mode
-               (not grm-leader-which-key-received)
+    (when (and ft-leader-local-mode
+               (not ft-leader-which-key-received)
                (not (which-key--popup-showing-p)))
-      (grm-which-key--create-buffer-and-show
+      (ft-which-key--create-buffer-and-show
        nil map
        (lambda (binding)
-         (and (not (s-matches? non-matcher (car binding)))
-              (s-matches? matcher (car binding)))
+         (and (not (string-match-p non-matcher (car binding)))
+              (string-match-p matcher (car binding)))
          )
        (lambda (unformatted)
          (dolist (key unformatted)
            (setcar key (replace-regexp-in-string mod "" (car key))))
-         (when (string= mod (cdr (assoc nil grm-leader-mod-alist)))
+         (when (string= mod (cdr (assoc nil ft-leader-mod-alist)))
            (setq unformatted
                  (cl-remove-if
                   (lambda (key)
                     (string=
-                     (car (rassq "" grm-leader-mod-alist))
+                     (car (rassq "" ft-leader-mod-alist))
                      (car key)))
                   unformatted))
            (setq unformatted
                  (cons
                   (cons
-                   (car (rassq "" grm-leader-mod-alist))
+                   (car (rassq "" ft-leader-mod-alist))
                    "no-modifier")
                   unformatted))
-           (dolist (mod grm-leader-mod-alist)
+           (dolist (mod ft-leader-mod-alist)
              (when (not (or (eq nil (car mod)) (string= "" (cdr mod))))
                (progn
                  (setq unformatted
@@ -376,37 +377,37 @@ KEY-STRING is the command to lookup."
        )
       ))
   (let (message-log-max)
-    (message grm-last-key-string)))
+    (message ft-last-key-string)))
 
-(defun grm-leader-which-key-top ()
-  (setq grm-leader-which-key-received nil)
+(defun ft-leader-which-key-top ()
+  (setq ft-leader-which-key-received nil)
   (sit-for which-key-idle-delay)
-  (when (and grm-leader-local-mode
-             (not grm-leader-which-key-received)
+  (when (and ft-leader-local-mode
+             (not ft-leader-which-key-received)
              (not (which-key--popup-showing-p)))
-    (let* ((mod (cdr (assoc nil grm-leader-mod-alist)))
+    (let* ((mod (cdr (assoc nil ft-leader-mod-alist)))
            (matcher (format "^<?%s" mod))
            (re-literal-matcher
             (format "%s%s"
                     matcher
-                    (car (rassq "" grm-leader-mod-alist))))
+                    (car (rassq "" ft-leader-mod-alist))))
            (non-matcher (format "%s.-" matcher)))
-      (grm-which-key--create-buffer-and-show
+      (ft-which-key--create-buffer-and-show
        nil nil
        (lambda (binding)
-         (and (not (s-matches? non-matcher (car binding)))
-              (not (s-matches? re-literal-matcher (car binding)))
-              (s-matches? matcher (car binding))
+         (and (not (string-match-p non-matcher (car binding)))
+              (not (string-match-p re-literal-matcher (car binding)))
+              (string-match-p matcher (car binding))
               ))
        (lambda (unformatted)
          (dolist (key unformatted)
            (setcar key (replace-regexp-in-string mod "" (car key))))
          (setq unformatted
                (cl-acons
-                (car (rassq "" grm-leader-mod-alist))
-                (symbol-name grm-leader-no-modifier-top-level-command)
+                (car (rassq "" ft-leader-mod-alist))
+                (symbol-name ft-leader-no-modifier-top-level-command)
                 unformatted))
-         (dolist (mod grm-leader-mod-alist)
+         (dolist (mod ft-leader-mod-alist)
            (when (not (or (eq nil (car mod)) (string= "" (cdr mod))))
              (progn
                (setq unformatted
@@ -414,43 +415,43 @@ KEY-STRING is the command to lookup."
                       (lambda (key) (string= (car mod) (car key)))
                       unformatted))
                (setq unformatted (cons mod unformatted)))))
-         (dolist (sp grm-leader-special)
+         (dolist (sp ft-leader-special)
            (setq unformatted
                  (cl-remove-if
                   (lambda (key)
-                    (string= (grm-leader-mode-sanitized-key-string sp) (car key)))
+                    (string= (ft-leader-mode-sanitized-key-string sp) (car key)))
                   unformatted))
-           (when (assq sp grm-special-bindings)
+           (when (assq sp ft-special-bindings)
              (setq unformatted
                    (cl-acons
-                    (grm-leader-mode-sanitized-key-string sp)
-                    (cdr (assq sp grm-special-bindings))
+                    (ft-leader-mode-sanitized-key-string sp)
+                    (cdr (assq sp ft-special-bindings))
                     unformatted))))
          unformatted))))
   (let (message-log-max)
-    (message grm-last-key-string)))
+    (message ft-last-key-string)))
 
 (with-eval-after-load 'which-key
-  (defun grm-which-key--create-buffer-and-show
+  (defun ft-which-key--create-buffer-and-show
       (&optional prefix-keys from-keymap filter preformat prefix-title)
     "Fill `which-key--buffer' with key descriptions and reformat.
 Finally, show the buffer."
     (let ((start-time (current-time))
-          (formatted-keys (grm-which-key--get-bindings
+          (formatted-keys (ft-which-key--get-bindings
                            prefix-keys from-keymap filter preformat))
           (prefix-desc (key-description prefix-keys)))
       (cond ((= (length formatted-keys) 0)
-             (setq grm-last-key-string
+             (setq ft-last-key-string
                    (format
                     "%s%s"
-                    (if grm-universal-arg
-                        (if (consp grm-universal-arg)
+                    (if ft-universal-arg
+                        (if (consp ft-universal-arg)
                             (apply 'concat
-                                   (make-list (floor (log (car grm-universal-arg) 4))
+                                   (make-list (floor (log (car ft-universal-arg) 4))
                                               "C-u "))
-                          (format "C-u %s " grm-universal-arg))
+                          (format "C-u %s " ft-universal-arg))
                       "")
-                    (format "%s which-key: There are no keys to show" grm-last-key-string)))
+                    (format "%s which-key: There are no keys to show" ft-last-key-string)))
              )
             ((listp which-key-side-window-location)
              (setq which-key--last-try-2-loc
@@ -465,7 +466,7 @@ Finally, show the buffer."
        "On prefix \"%s\" which-key took %.0f ms." prefix-desc
        (* 1000 (float-time (time-since start-time))))))
 
-  (defun grm-which-key--get-bindings (&optional prefix keymap filter preformat recursive)
+  (defun ft-which-key--get-bindings (&optional prefix keymap filter preformat recursive)
     "Collect key bindings.
 If KEYMAP is nil, collect from current buffer using the current
 key sequence as a prefix. Otherwise, collect from KEYMAP. FILTER
@@ -476,7 +477,7 @@ non-nil, then bindings are collected recursively for all prefixes."
                    (which-key--get-keymap-bindings keymap recursive))
                   (keymap
                    (error "%s is not a keymap" keymap))
-                  (grm-current-bindings grm-current-bindings)
+                  (ft-current-bindings ft-current-bindings)
                   (t
                    (which-key--get-current-bindings prefix)))))
       (when filter
@@ -489,4 +490,4 @@ non-nil, then bindings are collected recursively for all prefixes."
       (which-key--format-and-replace unformatted prefix recursive)))
   )
 
-(provide 'grm-leader-mode)
+(provide 'ft-leader-mode)
