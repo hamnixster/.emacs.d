@@ -9,6 +9,7 @@
        ("C-f" . grm-try-helm-projectile-find-file-dwim)
        ("C-p" . helm-projectile-switch-project)
        ("C-r" . grm-try-helm-projectile-recentf)
+       ("C-s" . helm-projectile-ag)
        ))))
 
 (provide 'grm-feature-projectile)

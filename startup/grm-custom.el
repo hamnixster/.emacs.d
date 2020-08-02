@@ -14,6 +14,7 @@
      evil-nerd-commenter
      nord-theme
      helm
+     helm-ag
      helm-projectile
      projectile
      smart-mode-line
