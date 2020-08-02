@@ -45,6 +45,7 @@
    ft-leader
    key-chord
    visual
+   fira-code
    emacs
    restart-emacs
    undo-tree
@@ -55,6 +56,7 @@
    whitespace
    which-key
    evil
+   avy
    helm
    org
    magit

@@ -46,6 +46,8 @@
      yaml-mode
      web-mode
      mmm-mode
+     fira-code-mode
+     avy
      ))))
 
 (provide 'grm-custom)

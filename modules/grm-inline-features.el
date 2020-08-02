@@ -69,4 +69,12 @@
 (grm-feature-config-inline flycheck
   (global-flycheck-mode))
 
+(grm-feature-config-inline fira-code
+  (add-hook 'prog-mode-hook 'fira-code-mode)
+  (add-hook 'text-mode-hook 'fira-code-mode))
+
+(grm-feature-config-inline avy
+  (setq avy-keys '(?a ?r ?s ?t ?n ?e ?i ?o))
+  (define-key grm-mode-map (kbd "C-c :") 'avy-goto-char))
+
 (provide 'grm-inline-features)
