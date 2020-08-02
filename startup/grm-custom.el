@@ -46,6 +46,7 @@
      yaml-mode
      web-mode
      mmm-mode
+     gnugo
      fira-code-mode
      avy
      ))))
