@@ -17,7 +17,6 @@
 (column-number-mode t)
 (show-paren-mode t)
 (size-indication-mode t)
-(load-theme grm-theme)
 (set-frame-font grm-font-string)
 
 (provide 'grm-feature-visual)

@@ -31,6 +31,7 @@
 
 (when (member 'grm-mode grm-enabled-features-list)
   (define-key grm-mode-map        (kbd "M-x")     'helm-M-x)
-  (define-key grm-mode-map        (kbd "C-x C-f") 'helm-find-files))
+  (define-key grm-mode-map        (kbd "C-x C-f") 'helm-find-files)
+  (define-key grm-mode-map        (kbd "C-x C-b") 'helm-buffers-list))
 
 (provide 'grm-feature-helm)

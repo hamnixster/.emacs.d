@@ -2,7 +2,8 @@
 (when (member 'company-quickhelp package-selected-packages)
   (company-quickhelp-mode +1))
 (setq company-backends
-      '((company-robe
+      '((company-capf
+         company-robe
          company-files
          company-keywords
          company-yasnippet

@@ -2,8 +2,6 @@
       gc-cons-percentage 0.6
       file-name-handler-alist nil)
 
-;; (setq debug-on-error t)
-
 (setq user-init-file (or load-file-name (buffer-file-name)))
 (setq user-emacs-directory (file-name-directory user-init-file))
 (defvar grm-base-dir      user-emacs-directory)
@@ -12,6 +10,7 @@
 (defvar grm-features-dir  (expand-file-name "features"  grm-modules-dir))
 (defvar grm-snippets-dir  (expand-file-name "snippets"  grm-base-dir))
 (defvar grm-templates-dir (expand-file-name "templates" grm-base-dir))
+(add-to-list 'custom-theme-load-path (expand-file-name "themes" grm-base-dir))
 (add-to-list 'load-path grm-startup-dir)
 (add-to-list 'load-path grm-modules-dir)
 (add-to-list 'load-path grm-features-dir)
@@ -30,10 +29,10 @@
 
 (setq
  user-full-name                  "hamnixster"
- grm-font-string                 "Fira Code:pixelsize=18"
+ grm-font-string                 "Fira Code:pixelsize=25"
  grm-theme                       'nord
  grm-whitespace-background-color "#3b4252"
- grm-start-in-emacs-modes        '(dired-mode calendar-mode image-mode gnugo-board-mode)
+ grm-start-in-emacs-modes        '(dired-mode calendar-mode image-mode)
  grm-keyboard-layout             'colemack
  grm-startup-quotes
  '(
@@ -48,12 +47,10 @@
    ft-leader
    key-chord
    visual
-   fira-code
    emacs
    restart-emacs
    undo-tree
    smart-mode-line
-   dimmer
    indent-guide
    beacon
    whitespace
@@ -67,7 +64,6 @@
    projectile
    auto-insert
    yas
-   flyspell
    diff-hl
    diminish
    smartparens
@@ -84,9 +80,9 @@
 (grm-ensure-all-packages)
 (grm-enable-features)
 
-(toggle-frame-fullscreen)
-(toggle-frame-fullscreen)
 (message "Welcome to emacs, %s." user-full-name)
 
 (setq gc-cons-threshold 16777216 ; 16mb
       gc-cons-percentage 0.1)
+
+(load-theme 'totus 1)

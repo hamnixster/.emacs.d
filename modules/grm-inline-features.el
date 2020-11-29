@@ -69,10 +69,6 @@
 (grm-feature-config-inline flycheck
   (global-flycheck-mode))
 
-(grm-feature-config-inline fira-code
-  (add-hook 'prog-mode-hook 'fira-code-mode)
-  (add-hook 'text-mode-hook 'fira-code-mode))
-
 (grm-feature-config-inline avy
   (cond ((eq 'colemack grm-keyboard-layout)
          (setq avy-keys '(?a ?r ?s ?t ?n ?e ?i ?o)))

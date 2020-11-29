@@ -3,53 +3,63 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
-
  '(package-selected-packages
-   (quote
-    (
-     no-littering
-     s
-     which-key
-     evil
-     evil-nerd-commenter
-     nord-theme
-     helm
-     helm-ag
-     helm-projectile
-     projectile
-     smart-mode-line
-     magit
-     evil-magit
+   '(
+     aggressive-indent
+     avy
+     beacon
+     chruby
      company
      company-quickhelp
+     csharp-mode
+     dap-mode
+     diff-hl
      diminish
      dimmer
-     diff-hl
-     beacon
-     indent-guide
-     key-chord
-     yasnippet
-     restart-emacs
-     smartparens
-     whitespace-cleanup-mode
-     aggressive-indent
-     markdown-mode
-     highlight-symbol
-     markdownfmt
+     erblint
+     evil
+     evil-magit
+     evil-nerd-commenter
      flycheck
-     chruby
+     helm
+     helm-ag
+     helm-company
+     helm-lsp
+     helm-projectile
+     highlight-symbol
+     hydra
+     indent-guide
      inf-ruby
-     ruby-end
+     key-chord
+     lsp-mode
+     lsp-ui
+     magit
+     markdown-mode
+     markdownfmt
+     mmm-mode
+     nix-mode
+     no-littering
+     nord-theme
+     projectile
+     projectile-rails
+     restart-emacs
      robe
      rspec-mode
-     projectile-rails
-     erblint
-     yaml-mode
+     ruby-end
+     smart-mode-line
+     smartparens
      web-mode
-     mmm-mode
-     gnugo
-     fira-code-mode
-     avy
-     ))))
+     which-key
+     whitespace-cleanup-mode
+     yaml-mode
+     yasnippet
+     zig-mode
+     )))
 
 (provide 'grm-custom)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
